@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * A QA Workflow
+ *
+ */
+
+
+/**
+ * Implements hook_menu().
+ */
+function islandora_qa_menu() {
+  $items = array();
+
+  $items['admin/islandora/tools/qa'] = array(
+    'title' => 'Islandora QA',
+    'description' => 'Setup a workflow for QA',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array('islandora_qa_admin_form'),
+    'file' => 'includes/admin.form.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+  return $items;
+}

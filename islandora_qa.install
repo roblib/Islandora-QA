@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function islandora_qa_schema() {
+  $schema = array();
+  
+  $schema['islandora_qa_task_info'] = array(
+    'description' => 'Holds information about the various tasks',
+    'fields' => array(
+      'taskId' => array(
+        'description' => 'An identifier for this task set',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'dataStreamLook' => array(
+        'description' => 'A data stream that provides information',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 255,
+      ),
+      'dataStreamEdit' => array(
+        'description' => 'A data stream that can be edited',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 255,
+      ),
+      'form' => array(
+        'description' => 'A form that is used to edit the date stream',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 255,
+      ),
+    ),
+    'primary key' => array('taskID'),
+  );
+  
+  $schema['islandora_qa_task_items'] = array(
+    'description' => 'lists the items and the task they belong to',
+    'fields' => array(
+      'taskId' => array(
+        'description' => 'An identifier for this task set',
+        'type' => 'int',
+        'size' => 'big',
+        'not null' => TRUE,
+      ),
+      'id' => array(
+        'description' => 'An identifier which was allocated for this object',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 255,
+      ),
+      'done' => array(
+        'description' => 'Describes if the item has been processed, 0=no 1=yes 2=error',
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('taskID', 'id'),
+  );
+  
+  $schema['islandora_qa_task_rejected'] = array(
+    'description' => 'lists the items and the reasons they were rejected',
+    'fields' => array(
+      'taskId' => array(
+        'description' => 'An identifier for this task set',
+        'type' => 'int',
+        'size' => 'big',
+        'not null' => TRUE,
+      ),
+      'id' => array(
+        'description' => 'An identifier which was allocated for this object',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 255,
+      ),
+      'done' => array(
+        'description' => 'The reason the item was rejected',
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+    ),
+    'primary key' => array('taskID', 'id'),
+  );
+  
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function islandora_qa_uninstall() {
+
+}

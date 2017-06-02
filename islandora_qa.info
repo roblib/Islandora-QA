@@ -1,0 +1,6 @@
+name = Islandora QA Workflow
+description = For now this just does nothing
+package = Islandora Tools
+version = 7.x-dev
+core = 7.x
+dependencies[] = islandora
