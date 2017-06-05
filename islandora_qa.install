@@ -20,13 +20,13 @@ function islandora_qa_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
-      'dataStreamLook' => array(
+      'streamLook' => array(
         'description' => 'A data stream that provides information',
         'type' => 'varchar',
         'not null' => TRUE,
         'length' => 255,
       ),
-      'dataStreamEdit' => array(
+      'streamEdit' => array(
         'description' => 'A data stream that can be edited',
         'type' => 'varchar',
         'not null' => TRUE,
@@ -39,7 +39,7 @@ function islandora_qa_schema() {
         'length' => 255,
       ),
     ),
-    'primary key' => array('taskID'),
+    'primary key' => array('taskId'),
   );
   
   $schema['islandora_qa_task_items'] = array(
@@ -65,7 +65,7 @@ function islandora_qa_schema() {
         'default' => 0,
       ),
     ),
-    'primary key' => array('taskID', 'id'),
+    'primary key' => array('taskId', 'id'),
   );
   
   $schema['islandora_qa_task_rejected'] = array(
@@ -89,7 +89,7 @@ function islandora_qa_schema() {
         'length' => 255,
       ),
     ),
-    'primary key' => array('taskID', 'id'),
+    'primary key' => array('taskId', 'id'),
   );
   
   return $schema;
