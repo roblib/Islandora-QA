@@ -21,23 +21,21 @@ function islandora_qa_create_form($form, $form_state) {
 
 function islandora_qa_create_form_submit($form, $form_state) {
 
-  db_insert('islandora_qa_task_info')
-      ->fields(array('taskId', 'streamLook', 'streamEdit', 'form'))
-      ->values(array(1, 'OBJ', 'MODS', 'mods'))
+  $thing = db_insert('islandora_qa_task_info')
+      ->fields(array('streamLook', 'streamEdit', 'form'))
+      ->values(array('OBJ', 'MODS', 'mods'))
       ->execute();
+  
+  //TODO Clean this
+  // dpm will display a message that contains only the taskID
+  // This code is used only to get the taskID into a variable
+  $num = dpm($thing);
       
-  db_insert('islandora_qa_task_info')
-      ->fields(array('taskId', 'streamLook', 'streamEdit', 'form'))
-      ->values(array(2, 'JPEG', 'MODS', 'mods'))
-      ->execute();
-      
-  for( $i = 1; $i<3; $i++ ) {
-    for( $j = 1; $j<6; $j++ ) {
-      db_insert('islandora_qa_task_items')
-          ->fields(array('taskId', 'id'))
-          ->values(array($i, $j))
-          ->execute();
-    }
+  for( $j = 7460; $j<7470; $j++ ) {
+    db_insert('islandora_qa_task_items')
+        ->fields(array('taskId', 'id'))
+        ->values(array($num, $j))
+        ->execute();
   }
          
 }
