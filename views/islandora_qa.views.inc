@@ -53,14 +53,42 @@ function islandora_qa_views_data() {
       'field' => array(
         'click sortable' => TRUE,
       ),
-    ),/*
-    'actions' => array(
-      'title' => t('Set Actions'),
-      'help' => t('A list of actions which may be performed on a set of items in the queue.'),
-      'field' => array(
-        'handler' => 'IslandoraQAViewsFieldHandlerSetActions',
+    ),
+  );
+
+  $data['islandora_qa_task_items'] = array(
+    'table' => array(
+      'group' => t('Islandora QA'),
+      'base' => array(
+        'field' => 'id',
+        'title' => t('Islandora QA Task items'),
+        'help' => t('A set of QA Task items'),
       ),
-    ),*/
+      'join' => array(
+        'islandora_qa_task_items' => array(
+          'left_field' => 'taskId',
+          'field' => 'taskId',
+        ),
+        'islandora_qa_task_info' => array(
+          'left_field' => 'taskId',
+          'field' => 'taskId',
+        ),
+      ),
+    ),
+    'taskId' => array(
+      'title' => t('Task ID'),
+      'help' => t('ID of the task set'),
+      'field' => array(
+        'handler' => 'views_handler_field_numeric',
+        'click sortable' => TRUE,
+      ),
+      'filter' => array(
+        'handler' => 'views_handler_filter_numeric',
+      ),
+      'sort' => array(
+        'handler' => 'views_handler_sort',
+      ),
+    ),
   );
 
   return $data;

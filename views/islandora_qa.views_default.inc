@@ -53,6 +53,9 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['id']['id'] = 'taskId';
   $handler->display->display_options['fields']['id']['table'] = 'islandora_qa_task_info';
   $handler->display->display_options['fields']['id']['field'] = 'taskId';
+  $handler->display->display_options['fields']['id']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['id']['alter']['path'] = 'islandora_qa/task/[id]';
+  $handler->display->display_options['fields']['id']['alter']['target'] = '_blank';
   /* Field: Islandora QA: Stream Look */
   $handler->display->display_options['fields']['streamOne']['id'] = 'streamLook';
   $handler->display->display_options['fields']['streamOne']['table'] = 'islandora_qa_task_info';
@@ -65,15 +68,12 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['form']['id'] = 'form';
   $handler->display->display_options['fields']['form']['table'] = 'islandora_qa_task_info';
   $handler->display->display_options['fields']['form']['field'] = 'form';
-  
-  /* Field: Islandora QA: Set Actions */
-  /*
-  $handler->display->display_options['fields']['actions']['id'] = 'actions';
-  $handler->display->display_options['fields']['actions']['table'] = 'islandora_qa_task_info';
-  $handler->display->display_options['fields']['actions']['field'] = 'actions';
-  $handler->display->display_options['fields']['actions']['label'] = '';
-  $handler->display->display_options['fields']['actions']['element_label_colon'] = FALSE;
-  */
+  /* Field: Islandora QA: Size */
+  $handler->display->display_options['fields']['count']['id'] = 'id_1';
+  $handler->display->display_options['fields']['count']['table'] = 'islandora_qa_task_items';
+  $handler->display->display_options['fields']['count']['field'] = 'taskId';
+  $handler->display->display_options['fields']['count']['group_type'] = 'count';
+  $handler->display->display_options['fields']['count']['label'] = 'Set Size';
 
   /* Display: User Set Page */
   $handler = $view->new_display('page', 'User Task Page', 'islandora_qa_task_page');
