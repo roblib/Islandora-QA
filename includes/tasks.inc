@@ -17,11 +17,11 @@
  * @return int
  *   The mapped state number, corresponding to $value.
  */
-function islandora_batch_map_value($value, $form_state) {
-  return $form_state['stash']['keys'][$value];
-}
+#function islandora_batch_map_value($value, $form_state) {
+#  return $form_state['stash']['keys'][$value];
+#}
 
-function islandora_qa_edit_datastream($taskId) {
+function islandora_qa_task_page_callback($taskId) {
   module_load_include('inc', 'islandora_qa', 'includes/db');
   
   $object = islandora_object_load(islandora_qa_get_next_in_task($taskId));
@@ -54,11 +54,11 @@ function islandora_qa_datastream_form(array $form, array &$form_state, $taskId, 
   
 
   return isset($association) ?
-    islandora_qa_datastream_form_metadata_form($form, $form_state, $taskId, $object, $association) :
+    islandora_qa_task_item_form($form, $form_state, $taskId, $object, $association) :
     xml_form_builder_datastream_form_select_association_form($form, $form_state, $associations);
 }
 
-function islandora_qa_datastream_form_metadata_form(array $form, array &$form_state, $taskId, AbstractObject $object, array $association) {
+function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, AbstractObject $object, array $association) {
   $form_state['pid'] = $object->id;
   $form_state['association'] = $association;
   $form_name = $association['form_name'];
@@ -106,8 +106,16 @@ function islandora_qa_datastream_form_metadata_form(array $form, array &$form_st
     '#type' => 'submit',
     '#value' => t('Update'),
     '#name' => 'update',
-    '#submit' => array('islandora_qa_datastream_form_metadata_form_submit'),
+    '#submit' => array('islandora_qa_task_item_form_submit'),
   );
+  
+  $form['reject'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reject'),
+    '#name' => 'reject',
+    '#submit' => array('islandora_qa_task_item_form_reject'),
+  );
+  
   return $form;
 }
 /**
@@ -120,7 +128,7 @@ function islandora_qa_datastream_form_metadata_form(array $form, array &$form_st
  * @param array $form_state
  *   The drupal form state.
  */
-function islandora_qa_datastream_form_metadata_form_submit(array $form, array &$form_state) {
+function islandora_qa_task_item_form_submit(array $form, array &$form_state) {
   $object = islandora_object_load($form_state['pid']);
   $association = $form_state['association'];
   $label = NULL;
@@ -133,4 +141,8 @@ function islandora_qa_datastream_form_metadata_form_submit(array $form, array &$
   xml_form_builder_update_object($object, $association, $document, $label);
   
   islandora_qa_mark_done_in_task($form_state['values']['taskId'], $form_state['values']['itemId']);
+}
+
+function islandora_qa_task_item_form_reject(array $form, array &$form_state) {
+  return false;
 }

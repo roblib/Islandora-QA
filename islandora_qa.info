@@ -1,5 +1,5 @@
 name = Islandora QA Workflow
-description = For now this just does nothing
+description = A module for editing one datastream while viewing anothers
 package = Islandora Tools
 version = 7.x-dev
 core = 7.x

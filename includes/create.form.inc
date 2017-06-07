@@ -21,16 +21,16 @@ function islandora_qa_create_form($form, $form_state) {
   
   $form['dataOne'] = array(
     '#type' => 'textfield',
-    '#title' => t('Data stream 1'),
+    '#title' => t('Reference Data stream'),
     '#default_value' => t('MEDIUM_SIZE'),
-    '#size' => 10,
+    '#size' => 15,
   );
   
   $form['dataTwo'] = array(
     '#type' => 'textfield',
-    '#title' => t('Data stream 2'),
+    '#title' => t('Editing Data stream'),
     '#default_value' => t('MODS'),
-    '#size' => 10,
+    '#size' => 15,
   );
   
   $form['dataForm'] = array(
