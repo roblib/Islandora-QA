@@ -26,6 +26,8 @@ function islandora_qa_edit_datastream($taskId) {
   
   $object = islandora_object_load(islandora_qa_get_next_in_task($taskId));
   
+  $image = islandora_datastream_load(islandora_qa_get_stream_look($taskId), $object);
+  
   $dataStream = islandora_qa_get_stream_edit($taskId);
   
   $form = islandora_qa_get_form($taskId);
@@ -66,20 +68,29 @@ function islandora_qa_datastream_form_metadata_form(array $form, array &$form_st
     $xml = $object[$dsid]->content;
   }
   
-  $form = xml_form_builder_get_form($form, $form_state, $form_name, $xml);
+  $subForm = xml_form_builder_get_form($form, $form_state, $form_name, $xml);
+  $form = array();
+  
+  //TODO Look into other ways to display images
+  $form['image'] = array(
+    '#markup' => theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/' .(islandora_qa_get_stream_look($taskId)),
+      'attributes' => array('class' => 'side-image'))),
+  );
+  
+  $form['bad_stuff'] = array(
+    '#markup' => '<div id="" style="overflow-y: scroll; height:400px;">'
+  );
+  $form = array_merge($form, $subForm);
+  $form['done_stuff'] = array(
+    '#markup' => '</div>'
+  );
+  
   // Make the Object label field required.
   if ($association['title_field']) {
     $title_field_parents = $association['title_field'];
     $title_field_parents[] = '#required';
     drupal_array_set_nested_value($form, $title_field_parents, TRUE);
   }
-  
-  //TODO Look into other ways to display images
-  
-  
-  $form['container'] = array(
-    '#markup' => theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/MEDIUM_SIZE', 'attributes' => array())),
-  );
   
   $form['taskId'] = array(
 		'#type' => 'hidden',
@@ -120,6 +131,6 @@ function islandora_qa_datastream_form_metadata_form_submit(array $form, array &$
   $xml_form = new XMLForm($form_state);
   $document = $xml_form->submit($form, $form_state);
   xml_form_builder_update_object($object, $association, $document, $label);
-  #$form_state['redirect'] = "islandora/object/{$object->id}";
+  
   islandora_qa_mark_done_in_task($form_state['values']['taskId'], $form_state['values']['itemId']);
 }
