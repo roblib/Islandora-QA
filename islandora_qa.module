@@ -23,7 +23,44 @@ function islandora_qa_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   
+  $items['islandora_qa/task/%'] = array(
+    'title' => 'Task @item',
+    'title arguments' => array('@item' => 2),
+    'page callback' => 'islandora_qa_edit_datastream',
+    'page arguments' => array(2),
+    'access callback' => 'islandora_qa_task_access',
+    'file' => 'includes/tasks.inc',
+  );
+  
+  $items['islandora_qa/task/%/next'] = array(
+    'title' => 'Work on task @item',
+    'title arguments' => array('@item' => 2),
+    'page callback' => 'islandora_qa_task_next_page_callback',
+    'page arguments' => array(2),
+    'access callback' => 'islandora_qa_task_access',
+    'file' => 'includes/tasks.inc',
+  );
+  
   return $items;
+}
+
+
+/**
+ * Implements hook_admin_paths_alter().
+ */
+function islandora_qa_admin_paths_alter(&$paths) {
+    $paths['islandora_qa/task/*'] = TRUE;
+}
+
+/**
+ * Check permissions for an set.
+ *
+ * Just returns True
+ * TODO: Sometimes return false
+ * 
+ */
+function islandora_qa_task_access() {
+  return true;
 }
 
 /**

@@ -85,7 +85,7 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: User: Current */
-  $handler->display->display_options['path'] = 'islandora_qa/reports/set';
+  $handler->display->display_options['path'] = 'islandora_qa/list/tasks';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Islandora QA Tasks';
   $handler->display->display_options['menu']['description'] = 'List of the current user\'s QA Tasks';

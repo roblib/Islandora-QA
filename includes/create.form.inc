@@ -22,7 +22,7 @@ function islandora_qa_create_form($form, $form_state) {
   $form['dataOne'] = array(
     '#type' => 'textfield',
     '#title' => t('Data stream 1'),
-    '#default_value' => t('OBJ'),
+    '#default_value' => t('MEDIUM_SIZE'),
     '#size' => 10,
   );
   
@@ -36,7 +36,7 @@ function islandora_qa_create_form($form, $form_state) {
   $form['dataForm'] = array(
     '#type' => 'textfield',
     '#title' => t('Data form'),
-    '#default_value' => t('mods'),
+    '#default_value' => t('islandora_basic_image_mods_form'),
     '#size' => 50,
   );
 
@@ -56,7 +56,7 @@ function islandora_qa_create_form($form, $form_state) {
 
 	$form['submit_button'] = array(
 		'#type' => 'submit',
-		'#value' => t('Click Here!'),
+		'#value' => t('Submit'),
 	);
   return $form;
 }
