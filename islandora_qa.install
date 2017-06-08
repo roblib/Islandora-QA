@@ -57,7 +57,7 @@ function islandora_qa_schema() {
         'not null' => TRUE,
         'length' => 255,
       ),
-      'done' => array(
+      'status' => array(
         'description' => 'Describes if the item has been processed, 0=no 1=yes 2=error',
         'type' => 'int',
         'size' => 'small',

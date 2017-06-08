@@ -4,5 +4,6 @@ package = Islandora Tools
 version = 7.x-dev
 core = 7.x
 dependencies[] = islandora
+files[] = views/handlers/IslandoraQAStatusFieldHandler.inc
 stylesheets[all][] = css/side_image.css
 

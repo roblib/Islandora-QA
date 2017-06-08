@@ -65,10 +65,6 @@ function islandora_qa_views_data() {
         'help' => t('A set of QA Task items'),
       ),
       'join' => array(
-        'islandora_qa_task_items' => array(
-          'left_field' => 'taskId',
-          'field' => 'taskId',
-        ),
         'islandora_qa_task_info' => array(
           'left_field' => 'taskId',
           'field' => 'taskId',
@@ -80,6 +76,28 @@ function islandora_qa_views_data() {
       'help' => t('ID of the task set'),
       'field' => array(
         'handler' => 'views_handler_field_numeric',
+        'click sortable' => TRUE,
+      ),
+      'filter' => array(
+        'handler' => 'views_handler_filter_numeric',
+      ),
+      'sort' => array(
+        'handler' => 'views_handler_sort',
+      ),
+    ),
+    'id' => array(
+      'title' => t('Item ID'),
+      'help' => t('ID of an item in the set'),
+      'field' => array(
+        'click sortable' => TRUE,
+      ),
+    ),
+    'status' => array(
+      'title' => t('Status'),
+      'help' => t('If the item has been successfully processed'),
+      'field' => array(
+        'handler' => 'IslandoraQAStatusFieldHandler',
+        #'handler' => 'views_handler_field_numeric',
         'click sortable' => TRUE,
       ),
       'filter' => array(

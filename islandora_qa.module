@@ -6,6 +6,9 @@
  *
  */
 
+define('ISLANDORA_QA_STATUS__NOT_DONE', 0);
+define('ISLANDORA_QA_STATUS__DONE', 1);
+define('ISLANDORA_QA_STATUS__REJECTED', 2);
 
 /**
  * Implements hook_menu().
