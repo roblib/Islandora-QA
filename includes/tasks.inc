@@ -4,35 +4,32 @@
  * @file
  * Page callbacks and relevant forms (and friends).
  */
-
-/**
- * Map option value back to state number.
- *
- * @param string $value
- *   A value for one of the options dealt with in
- *   islandora_batch_get_mappings().
- * @param array $form_state
- *   The form state, so we can access our "stashed" mapping.
- *
- * @return int
- *   The mapped state number, corresponding to $value.
- */
-#function islandora_batch_map_value($value, $form_state) {
-#  return $form_state['stash']['keys'][$value];
-#}
+ 
 
 function islandora_qa_task_page_callback($taskId) {
   module_load_include('inc', 'islandora_qa', 'includes/db');
   
-  $object = islandora_object_load(islandora_qa_get_next_in_task($taskId));
+  $nextId = islandora_qa_get_next_in_task($taskId);
+  if($nextId == null)
+    return drupal_get_form('islandora_qa_task_complete_form');
+  
+  $object = islandora_object_load($nextId);
   
   $image = islandora_datastream_load(islandora_qa_get_stream_look($taskId), $object);
   
   $dataStream = islandora_qa_get_stream_edit($taskId);
   
-  $form = islandora_qa_get_form($taskId);
+  $formId = islandora_qa_get_form($taskId);
 
-  return drupal_get_form('islandora_qa_datastream_form', $taskId, $object, $dataStream, $form);
+  return drupal_get_form('islandora_qa_datastream_form', $taskId, $object, $dataStream, $formId);
+}
+
+function islandora_qa_task_complete_form(array $form, array &$form_state) {
+  $form = array();
+  $form['Hardcode'] = array(
+    '#markup' => 'Task is done. This page should have other stuffs'
+  );
+  return $form;
 }
 
 function islandora_qa_datastream_form(array $form, array &$form_state, $taskId, AbstractObject $object, $dsid, $formId) {
@@ -68,8 +65,14 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     $xml = $object[$dsid]->content;
   }
   
+  $progress = islandora_qa_get_progress_in_task($taskId);
+  
   $subForm = xml_form_builder_get_form($form, $form_state, $form_name, $xml);
   $form = array();
+  
+  $form['progress'] = array(
+    '#markup' => 'Number '.($progress[0]+1).' of '.$progress[1]
+  );
   
   //TODO Look into other ways to display images
   $form['image'] = array(
@@ -77,11 +80,11 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
       'attributes' => array('class' => 'side-image'))),
   );
   
-  $form['bad_stuff'] = array(
+  $form['Hardcode'] = array(
     '#markup' => '<div id="" style="overflow-y: scroll; height:400px;">'
   );
   $form = array_merge($form, $subForm);
-  $form['done_stuff'] = array(
+  $form['done_hardcoding'] = array(
     '#markup' => '</div>'
   );
   
@@ -110,10 +113,9 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   );
   
   $form['reject'] = array(
-    '#type' => 'submit',
-    '#value' => t('Reject'),
-    '#name' => 'reject',
-    '#submit' => array('islandora_qa_task_item_form_reject'),
+    '#type' => 'link',
+    '#href' => ('islandora_qa/task/'.$taskId.'/reject/'.($object -> id)),
+    '#title' => t('reject'),
   );
   
   return $form;
@@ -144,5 +146,61 @@ function islandora_qa_task_item_form_submit(array $form, array &$form_state) {
 }
 
 function islandora_qa_task_item_form_reject(array $form, array &$form_state) {
-  return false;
+  drupal_goto('islandora_qa/task/'.($form_state['values']['taskId']).'/reject/'.($form_state['values']['itemId']));
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ *
+ */
+function islandora_qa_task_reject_page_callback ($taskId, $itemId) {
+  module_load_include('inc', 'islandora_qa', 'includes/db');
+
+  return drupal_get_form('islandora_qa_reject_form', $taskId, $itemId);
+}
+
+function islandora_qa_reject_form(array $form, array &$form_state, $taskId, $itemId) {
+  $form = array();
+
+  $form['taskId'] = array(
+		'#type' => 'hidden',
+		'#value' => ($taskId),
+	);
+  
+  $form['itemId'] = array(
+    '#type' => 'hidden',
+    '#default_value' => ($itemId),
+  );
+  
+  $form['reason'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Reason'),
+    '#size' => 100,
+  );
+  
+  $form['reject'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reject'),
+    '#name' => 'reject',
+    '#submit' => array('islandora_qa_reject_form_submit'),
+  );
+  
+  $form['cancel'] = array(
+    '#type' => 'link',
+    '#href' => ('islandora_qa/task/'.$taskId),
+    '#title' => t('cancel'),
+  );
+  
+  return $form;
+}
+
+function islandora_qa_reject_form_submit(array $form, array &$form_state) {
+  
+  islandora_qa_reject_in_task($form_state['values']['taskId'], $form_state['values']['itemId'], $form_state['values']['reason']);
+  
+  drupal_goto('islandora_qa/task/'.($form_state['values']['taskId']));
 }

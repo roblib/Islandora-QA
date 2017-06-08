@@ -83,7 +83,7 @@ function islandora_qa_schema() {
         'not null' => TRUE,
         'length' => 255,
       ),
-      'done' => array(
+      'reason' => array(
         'description' => 'The reason the item was rejected',
         'type' => 'varchar',
         'length' => 255,

@@ -32,6 +32,15 @@ function islandora_qa_menu() {
     'file' => 'includes/tasks.inc',
   );
   
+  $items['islandora_qa/task/%/reject/%'] = array(
+    'title' => 'Reject @item',
+    'title arguments' => array('@item' => 4),
+    'page callback' => 'islandora_qa_task_reject_page_callback',
+    'page arguments' => array(2,4),
+    'access callback' => 'islandora_qa_task_access',
+    'file' => 'includes/tasks.inc',
+  );
+  
   return $items;
 }
 
