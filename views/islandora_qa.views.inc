@@ -107,6 +107,13 @@ function islandora_qa_views_data() {
         'handler' => 'views_handler_sort',
       ),
     ),
+    'rejectionReason' => array(
+      'title' => t('Rejection Reason'),
+      'help' => t('The reason the item was rejected'),
+      'field' => array(
+        'click sortable' => TRUE,
+      ),
+    ),
   );
 
   return $data;

@@ -37,6 +37,45 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'id' => 'id',
+    'streamOne' => 'streamOne',
+    'streamTwo' => 'streamTwo',
+    'form' => 'form',
+    'count' => 'count',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'id' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'streamOne' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'streamTwo' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'form' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'count' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
   
   /* Header: Global: Result summary */
   $handler->display->display_options['header']['result']['id'] = 'result';
@@ -167,6 +206,10 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['status']['label'] = 'Status';
   $handler->display->display_options['fields']['status']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['status']['alter']['text'] = '[status-text]';
+  /* Field: Islandora QA: Reason */
+  $handler->display->display_options['fields']['reject']['id'] = 'rejectionReason';
+  $handler->display->display_options['fields']['reject']['table'] = 'islandora_qa_task_items';
+  $handler->display->display_options['fields']['reject']['field'] = 'rejectionReason';
 
   /* Display: User Task Page */
   $handler = $view->new_display('page', 'User Task Page', 'islandora_qa_task_page');

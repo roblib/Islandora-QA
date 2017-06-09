@@ -64,26 +64,7 @@ function islandora_qa_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
-    ),
-    'primary key' => array('taskId', 'id'),
-  );
-  
-  $schema['islandora_qa_task_rejected'] = array(
-    'description' => 'lists the items and the reasons they were rejected',
-    'fields' => array(
-      'taskId' => array(
-        'description' => 'An identifier for this task set',
-        'type' => 'int',
-        'size' => 'big',
-        'not null' => TRUE,
-      ),
-      'id' => array(
-        'description' => 'An identifier which was allocated for this object',
-        'type' => 'varchar',
-        'not null' => TRUE,
-        'length' => 255,
-      ),
-      'reason' => array(
+      'rejectionReason' => array(
         'description' => 'The reason the item was rejected',
         'type' => 'varchar',
         'length' => 255,

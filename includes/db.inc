@@ -68,13 +68,8 @@ function islandora_qa_mark_done_in_task($taskId, $itemId) {
 //TODO maybe put in some error checking
 function islandora_qa_reject_in_task($taskId, $itemId, $reason) {
   db_update('islandora_qa_task_items')
-    ->fields(array('status' => 2))
+    ->fields(array('status' => 2, 'rejectionReason' => $reason))
     ->condition('taskId', $taskId)
     ->condition('id', $itemId)
-    ->execute();
-   
-  db_insert('islandora_qa_task_rejected')
-    ->fields(array('taskId', 'id', 'reason'))
-    ->values(array($taskId, $itemId, $reason))
     ->execute();
 } 
