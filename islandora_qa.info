@@ -5,5 +5,6 @@ version = 7.x-dev
 core = 7.x
 dependencies[] = islandora
 files[] = views/handlers/IslandoraQAStatusFieldHandler.inc
+files[] = views/handlers/IslandoraQAViewsFieldHandlerAction.inc
 stylesheets[all][] = css/side_image.css
 

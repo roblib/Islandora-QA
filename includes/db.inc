@@ -65,11 +65,19 @@ function islandora_qa_mark_done_in_task($taskId, $itemId) {
     ->execute();
 } 
 
-//TODO maybe put in some error checking
 function islandora_qa_reject_in_task($taskId, $itemId, $reason) {
   db_update('islandora_qa_task_items')
     ->fields(array('status' => 2, 'rejectionReason' => $reason))
     ->condition('taskId', $taskId)
     ->condition('id', $itemId)
     ->execute();
+} 
+
+function islandora_qa_delete_task($taskId) {
+    db_delete('islandora_qa_task_info')
+      ->condition('taskId', $taskId)
+      ->execute();
+    db_delete('islandora_qa_task_items')
+      ->condition('taskId', $taskId)
+      ->execute();
 } 

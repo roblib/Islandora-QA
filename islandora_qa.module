@@ -44,6 +44,15 @@ function islandora_qa_menu() {
     'file' => 'includes/tasks.inc',
   );
   
+    $items['islandora_qa/task/%/delete'] = array(
+    'title' => 'Delete @item',
+    'title arguments' => array('@item' => 2),
+    'page callback' => 'islandora_qa_task_delete_page_callback',
+    'page arguments' => array(2),
+    'access callback' => 'islandora_qa_task_access',
+    'file' => 'includes/tasks.inc',
+  );
+  
   return $items;
 }
 

@@ -113,6 +113,12 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['count']['field'] = 'taskId';
   $handler->display->display_options['fields']['count']['group_type'] = 'count';
   $handler->display->display_options['fields']['count']['label'] = 'Set Size';
+  /* Field: Islandora QA: Task Actions */
+  $handler->display->display_options['fields']['actions']['id'] = 'actions';
+  $handler->display->display_options['fields']['actions']['table'] = 'islandora_qa_task_info';
+  $handler->display->display_options['fields']['actions']['field'] = 'actions';
+  $handler->display->display_options['fields']['actions']['label'] = '';
+  $handler->display->display_options['fields']['actions']['element_label_colon'] = FALSE;
 
   /* Display: User Task Page */
   $handler = $view->new_display('page', 'User Task Page', 'islandora_qa_task_page');
