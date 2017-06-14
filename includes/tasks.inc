@@ -69,7 +69,8 @@ function islandora_qa_datastream_form(array $form, array &$form_state, $taskId, 
 }
 
 function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, AbstractObject $object, array $association) {
-  $form_state['pid'] = $object->id;
+  $form_state['taskId'] = $taskId;
+  $form_state['itemId'] = $object->id;
   $form_state['association'] = $association;
   $form_name = $association['form_name'];
   $dsid = $association['dsid'];
@@ -108,16 +109,6 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     drupal_array_set_nested_value($form, $title_field_parents, TRUE);
   }
   
-  $form['taskId'] = array(
-		'#type' => 'hidden',
-		'#value' => ($taskId),
-	);
-	
-	$form['itemId'] = array(
-		'#type' => 'hidden',
-		'#value' => ($object -> id),
-	);
-  
   $form['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
@@ -144,7 +135,7 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
  *   The drupal form state.
  */
 function islandora_qa_task_item_form_submit(array $form, array &$form_state) {
-  $object = islandora_object_load($form_state['pid']);
+  $object = islandora_object_load($form_state['itemId']);
   $association = $form_state['association'];
   $label = NULL;
   if ($association['title_field']) {
@@ -155,11 +146,11 @@ function islandora_qa_task_item_form_submit(array $form, array &$form_state) {
   $document = $xml_form->submit($form, $form_state);
   xml_form_builder_update_object($object, $association, $document, $label);
   
-  islandora_qa_mark_done_in_task($form_state['values']['taskId'], $form_state['values']['itemId']);
+  islandora_qa_mark_done_in_task($form_state['taskId'], $form_state['itemId']);
 }
 
 function islandora_qa_task_item_form_reject(array $form, array &$form_state) {
-  drupal_goto('islandora_qa/task/'.($form_state['values']['taskId']).'/reject/'.($form_state['values']['itemId']));
+  drupal_goto('islandora_qa/task/'.($form_state['taskId']).'/reject/'.($form_state['itemId']));
 }
 
 
@@ -178,16 +169,8 @@ function islandora_qa_task_reject_page_callback ($taskId, $itemId) {
 
 function islandora_qa_reject_form(array $form, array &$form_state, $taskId, $itemId) {
   $form = array();
-
-  $form['taskId'] = array(
-		'#type' => 'hidden',
-		'#value' => ($taskId),
-	);
-  
-  $form['itemId'] = array(
-    '#type' => 'hidden',
-    '#default_value' => ($itemId),
-  );
+  $form_state['taskId'] = $taskId;
+  $form_state['itemId'] = $itemId;
   
   $form['reason'] = array(
     '#type' => 'textfield',
@@ -213,9 +196,9 @@ function islandora_qa_reject_form(array $form, array &$form_state, $taskId, $ite
 
 function islandora_qa_reject_form_submit(array $form, array &$form_state) {
   
-  islandora_qa_reject_in_task($form_state['values']['taskId'], $form_state['values']['itemId'], $form_state['values']['reason']);
+  islandora_qa_reject_in_task($form_state['taskId'], $form_state['itemId'], $form_state['values']['reason']);
   
-  drupal_goto('islandora_qa/task/'.($form_state['values']['taskId']));
+  drupal_goto('islandora_qa/task/'.($form_state['taskId']));
 }
 
 /**
@@ -233,11 +216,7 @@ function islandora_qa_task_delete_page_callback ($taskId) {
 
 function islandora_qa_delete_form(array $form, array &$form_state, $taskId) {
   $form = array();
-
-  $form['taskId'] = array(
-		'#type' => 'hidden',
-		'#value' => ($taskId),
-	);
+  $form_state['taskId'] = $taskId;
   
   $form['delete'] = array(
     '#type' => 'submit',
@@ -257,7 +236,7 @@ function islandora_qa_delete_form(array $form, array &$form_state, $taskId) {
 
 function islandora_qa_delete_form_submit(array $form, array &$form_state) {
   
-  islandora_qa_delete_task($form_state['values']['taskId']);
+  islandora_qa_delete_task($form_state['taskId']);
   
   drupal_goto('islandora_qa/list/tasks');
 }
