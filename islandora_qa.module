@@ -31,7 +31,7 @@ function islandora_qa_menu() {
     'title arguments' => array('@item' => 2),
     'page callback' => 'islandora_qa_task_page_callback',
     'page arguments' => array(2),
-    'access callback' => 'islandora_qa_task_access',
+    'access callback' => 'islandora_qa_task_work',
     'file' => 'includes/tasks.inc',
   );
   
@@ -40,7 +40,7 @@ function islandora_qa_menu() {
     'title arguments' => array('@item' => 4),
     'page callback' => 'islandora_qa_task_reject_page_callback',
     'page arguments' => array(2,4),
-    'access callback' => 'islandora_qa_task_access',
+    'access callback' => 'islandora_qa_task_work',
     'file' => 'includes/tasks.inc',
   );
   
@@ -49,7 +49,7 @@ function islandora_qa_menu() {
     'title arguments' => array('@item' => 2),
     'page callback' => 'islandora_qa_task_delete_page_callback',
     'page arguments' => array(2),
-    'access callback' => 'islandora_qa_task_access',
+    'access callback' => 'islandora_qa_task_edit',
     'file' => 'includes/tasks.inc',
   );
   
@@ -64,15 +64,34 @@ function islandora_qa_admin_paths_alter(&$paths) {
     $paths['islandora_qa/task/*'] = TRUE;
 }
 
+
+function islandora_qa_task_work() {
+  global $user;
+  return user_access('islandora qa work on task', $user);
+}
+
+function islandora_qa_task_edit() {
+  global $user;
+  return user_access('islandora qa manage task', $user);
+}
+
 /**
- * Check permissions for an set.
- *
- * Just returns True
- * TODO: Sometimes return false
- * 
+ * Implements hook_permission().
  */
-function islandora_qa_task_access() {
-  return true;
+function islandora_qa_permission() {
+  $perms = array();
+
+  $perms['islandora qa manage task'] = array(
+    'title' => t('Islandora QA Task manage'),
+    'description' => t('Allow full management of all QA Tasks'),
+  );
+  
+  $perms['islandora qa work on task'] = array(
+    'title' => t('Islandora QA Task work'),
+    'description' => t('Allow work on any QA Task'),
+  );
+
+  return $perms;
 }
 
 /**
