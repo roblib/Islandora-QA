@@ -14,6 +14,12 @@ function islandora_qa_task_page_callback($taskId) {
     return drupal_get_form('islandora_qa_task_complete_form');
   
   $object = islandora_object_load($nextId);
+  if($object == null)
+  {
+    islandora_qa_reject_in_task($taskId, $nextId, 'The specified object does not exist');
+    //reload same page
+    drupal_goto('islandora_qa/task/'.($taskId));
+  }
   
   $image = islandora_datastream_load(islandora_qa_get_stream_look($taskId), $object);
   
@@ -27,7 +33,7 @@ function islandora_qa_task_page_callback($taskId) {
 function islandora_qa_task_complete_form(array $form, array &$form_state) {
   $form = array();
   $form['Hardcode'] = array(
-    '#markup' => 'Task is done. This page should have other stuffs'
+    '#markup' => 'This task is either completed or does not exist'
   );
   return $form;
 }
@@ -37,8 +43,13 @@ function islandora_qa_datastream_form(array $form, array &$form_state, $taskId, 
   
   // Leave this here for legacy reasons.
   $form_state['datastream'] = isset($object[$dsid]) ? $object[$dsid] : FALSE;
-  
+
   $associations = xml_form_builder_datastream_form_get_associations($form_state, $object->models, $dsid);
+  if(empty($associations)){
+    islandora_qa_reject_in_task($taskId, $object->id, 'The datastream does not have any associated forms or does not exist');
+    //reload same page
+    drupal_goto('islandora_qa/task/'.($taskId));
+  }
   //Code to get an association
   //start with a fallback
   $association = xml_form_builder_datastream_form_get_association($form_state, $associations);
