@@ -9,16 +9,18 @@
 function islandora_qa_task_page_callback($taskId) {
   module_load_include('inc', 'islandora_qa', 'includes/db');
   
-  $nextId = islandora_qa_get_next_in_task($taskId);
-  if($nextId == null)
-    return drupal_get_form('islandora_qa_task_complete_form');
-  
-  $object = islandora_object_load($nextId);
-  if($object == null)
+  $object = null;
+  while($object == null)
   {
-    islandora_qa_reject_in_task($taskId, $nextId, 'The specified object does not exist');
-    //reload same page
-    drupal_goto('islandora_qa/task/'.($taskId));
+    $nextId = islandora_qa_get_next_in_task($taskId);
+    if($nextId == null)
+      return drupal_get_form('islandora_qa_task_complete_form');
+  
+    $object = islandora_object_load($nextId);
+    if($object == null)
+    {
+      islandora_qa_reject_in_task($taskId, $nextId, 'The specified object does not exist');
+    }
   }
   
   $image = islandora_datastream_load(islandora_qa_get_stream_look($taskId), $object);
