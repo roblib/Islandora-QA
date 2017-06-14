@@ -51,7 +51,7 @@ function islandora_qa_schema() {
         'size' => 'big',
         'not null' => TRUE,
       ),
-      'id' => array(
+      'itemId' => array(
         'description' => 'An identifier which was allocated for this object',
         'type' => 'varchar',
         'not null' => TRUE,
@@ -70,7 +70,7 @@ function islandora_qa_schema() {
         'length' => 255,
       ),
     ),
-    'primary key' => array('taskId', 'id'),
+    'primary key' => array('taskId', 'itemId'),
   );
   
   return $schema;

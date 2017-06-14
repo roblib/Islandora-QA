@@ -82,7 +82,7 @@ function islandora_qa_create_form_submit($form, $form_state) {
   {
     for( $i = $start; $i <= $end; $i++ ) {
       db_insert('islandora_qa_task_items')
-          ->fields(array('taskId', 'id'))
+          ->fields(array('taskId', 'itemId'))
           ->values(array($taskNum, $nameSpace . ':' . $i))
           ->execute();
     }

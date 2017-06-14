@@ -92,7 +92,7 @@ function islandora_qa_views_data() {
         'handler' => 'views_handler_sort',
       ),
     ),
-    'id' => array(
+    'itemId' => array(
       'title' => t('Item ID'),
       'help' => t('ID of an item in the set'),
       'field' => array(

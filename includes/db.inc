@@ -7,7 +7,7 @@
  
 function islandora_qa_get_next_in_task($taskId) {
   $item_id = db_select('islandora_qa_task_items', 'q')
-    ->fields('q', array('id'))
+    ->fields('q', array('itemId'))
     ->condition('taskId', $taskId)
     ->condition('status', 0)
     ->execute()
@@ -17,13 +17,13 @@ function islandora_qa_get_next_in_task($taskId) {
 
 function islandora_qa_get_progress_in_task($taskId) {
   $done = db_select('islandora_qa_task_items', 'q')
-    ->fields('q', array('id'))
+    ->fields('q', array('itemId'))
     ->condition('taskId', $taskId)
     ->condition('status', 0, '!=')
     ->execute()
     ->rowCount();
   $all = db_select('islandora_qa_task_items', 'q')
-    ->fields('q', array('id'))
+    ->fields('q', array('itemId'))
     ->condition('taskId', $taskId)
     ->execute()
     ->rowCount();
@@ -61,7 +61,7 @@ function islandora_qa_mark_done_in_task($taskId, $itemId) {
   db_update('islandora_qa_task_items')
     ->fields(array('status' => 1))
     ->condition('taskId', $taskId)
-    ->condition('id', $itemId)
+    ->condition('itemId', $itemId)
     ->execute();
 } 
 
@@ -69,7 +69,7 @@ function islandora_qa_reject_in_task($taskId, $itemId, $reason) {
   db_update('islandora_qa_task_items')
     ->fields(array('status' => 2, 'rejectionReason' => $reason))
     ->condition('taskId', $taskId)
-    ->condition('id', $itemId)
+    ->condition('itemId', $itemId)
     ->execute();
 } 
 

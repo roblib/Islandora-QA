@@ -195,9 +195,9 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['empty']['area']['content'] = 'No sets available.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Field: Islandora QA: Item ID */
-  $handler->display->display_options['fields']['itemId']['id'] = 'id';
+  $handler->display->display_options['fields']['itemId']['id'] = 'itemId';
   $handler->display->display_options['fields']['itemId']['table'] = 'islandora_qa_task_items';
-  $handler->display->display_options['fields']['itemId']['field'] = 'id';
+  $handler->display->display_options['fields']['itemId']['field'] = 'itemId';
   $handler->display->display_options['fields']['itemId']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['itemId']['alter']['path'] = 'islandora/object/[itemId]';
   $handler->display->display_options['fields']['itemId']['alter']['target'] = '_blank';
