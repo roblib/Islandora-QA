@@ -40,21 +40,26 @@ function islandora_qa_create_form($form, $form_state) {
     '#size' => 50,
   );
 
-  $form['numRange'] = array(
+  $form['pidTabs'] = array(
+    '#type' => 'vertical_tabs',
+  );
+
+  $form['idRange'] = array(
     '#type' => 'fieldset',
     '#title' => t('PID Range'),
     '#collapsible' => FALSE,
-    '#collapsed' => FALSE,  
+    '#collapsed' => FALSE,
+    '#group' => 'pidTabs',
   );
 
-  $form['numRange']['numFrom'] = array(
+  $form['idRange']['numFrom'] = array(
     '#type' => 'textfield',
     '#title' => t('Start Number'),
     '#default_value' => t('7460'),
     '#size' => 10,
   );
   
-  $form['numRange']['numTo'] = array(
+  $form['idRange']['numTo'] = array(
     '#type' => 'textfield',
     '#title' => t('End Number'),
     '#default_value' => t('7470'),
@@ -62,8 +67,15 @@ function islandora_qa_create_form($form, $form_state) {
   );
   
   $form['idList'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('PID List'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+    '#group' => 'pidTabs',
+  );
+  $form['idList']['idField'] = array(
     '#type' => 'textarea',
-    '#title' => t('Other PIDs'),
+    '#title' => t('List of PIDs, seperated by commas or newlines.'),
   );
 
 	$form['submit_button'] = array(
@@ -82,7 +94,7 @@ function islandora_qa_create_form_submit($form, $form_state) {
   $validRange = $rangeEnd > $rangeStart && ($rangeEnd - $rangeStart) < 10000;
   
   //array of strings
-  $otherPIDs = preg_split('/\s*[,\n]\s*/', $form_state['values']['idList'], -1, PREG_SPLIT_NO_EMPTY);
+  $otherPIDs = preg_split('/\s*[,\n]\s*/', $form_state['values']['idField'], -1, PREG_SPLIT_NO_EMPTY);
   
   if($validRange || !empty($otherPIDs))
   {
