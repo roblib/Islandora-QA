@@ -11,13 +11,6 @@
  */
 function islandora_qa_create_form($form, $form_state) {
   $form = array();
-
-  $form['namespace'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Namespace'),
-    '#default_value' => t('islandora'),
-    '#size' => 50,
-  );
   
   $form['dataOne'] = array(
     '#type' => 'textfield',
@@ -40,9 +33,16 @@ function islandora_qa_create_form($form, $form_state) {
     '#size' => 50,
   );
 
+  $form['namespace'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Namespace'),
+    '#default_value' => t('islandora'),
+    '#size' => 50,
+  );
+
   $form['numRange'] = array(
     '#type' => 'fieldset',
-    '#title' => t('ID Range'),
+    '#title' => t('PID Range'),
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,  
   );
@@ -60,6 +60,11 @@ function islandora_qa_create_form($form, $form_state) {
     '#default_value' => t('7470'),
     '#size' => 10,
   );
+  
+  $form['idList'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Other PIDs'),
+  );
 
 	$form['submit_button'] = array(
 		'#type' => 'submit',
@@ -68,15 +73,18 @@ function islandora_qa_create_form($form, $form_state) {
   return $form;
 }
 
-function islandora_qa_create_form_submit($form, $form_state) {  
-  $start = (int)$form_state['values']['numFrom'];
-  $end = (int)$form_state['values']['numTo'];
+function islandora_qa_create_form_submit($form, $form_state) {
   $nameSpace = $form_state['values']['namespace'];
-  
+ 
+  $rangeStart = (int)$form_state['values']['numFrom'];
+  $rangeEnd = (int)$form_state['values']['numTo'];
   //boolean value
-  $validRange = $end > $start && ($end - $start) < 10000;
+  $validRange = $rangeEnd > $rangeStart && ($rangeEnd - $rangeStart) < 10000;
   
-  if($validRange)
+  //array of strings
+  $otherPIDs = preg_split('/\s*[,\n]\s*/', $form_state['values']['idList'], -1, PREG_SPLIT_NO_EMPTY);
+  
+  if($validRange || !empty($otherPIDs))
   {
     $taskNum = db_insert('islandora_qa_task_info')
       ->fields(array('streamLook', 'streamEdit', 'form'))
@@ -84,11 +92,23 @@ function islandora_qa_create_form_submit($form, $form_state) {
       ->execute();
     dpm("Task " . $taskNum . " was created");
     
-    for( $i = $start; $i <= $end; $i++ ) {
-      db_insert('islandora_qa_task_items')
+    if($validRange)
+    {
+      for( $i = $rangeStart; $i <= $rangeEnd; $i++ ) {
+        db_insert('islandora_qa_task_items')
           ->fields(array('taskId', 'itemId'))
           ->values(array($taskNum, $nameSpace . ':' . $i))
           ->execute();
+      }
+    }
+    if(!empty($otherPIDs))
+    {
+      foreach($otherPIDs as $pid){
+        db_insert('islandora_qa_task_items')
+          ->fields(array('taskId', 'itemId'))
+          ->values(array($taskNum, $nameSpace . ':' . $pid))
+          ->execute();
+      }
     }
   }
   else
