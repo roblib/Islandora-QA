@@ -12,13 +12,6 @@
 function islandora_qa_create_form($form, $form_state) {
   $form = array();
   
-  $form['dataOne'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Reference Data stream'),
-    '#default_value' => t('MEDIUM_SIZE'),
-    '#size' => 15,
-  );
-  
   $form['dataTwo'] = array(
     '#type' => 'textfield',
     '#title' => t('Editing Data stream'),
@@ -29,14 +22,6 @@ function islandora_qa_create_form($form, $form_state) {
   $form['dataForm'] = array(
     '#type' => 'textfield',
     '#title' => t('Data form'),
-    '#default_value' => t('islandora_basic_image_mods_form'),
-    '#size' => 50,
-  );
-
-  $form['namespace'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Namespace'),
-    '#default_value' => t('islandora'),
     '#size' => 50,
   );
 
@@ -44,28 +29,6 @@ function islandora_qa_create_form($form, $form_state) {
     '#type' => 'vertical_tabs',
   );
 
-  $form['idRange'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('PID Range'),
-    '#collapsible' => FALSE,
-    '#collapsed' => FALSE,
-    '#group' => 'pidTabs',
-  );
-
-  $form['idRange']['numFrom'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Start Number'),
-    '#default_value' => t('7460'),
-    '#size' => 10,
-  );
-  
-  $form['idRange']['numTo'] = array(
-    '#type' => 'textfield',
-    '#title' => t('End Number'),
-    '#default_value' => t('7470'),
-    '#size' => 10,
-  );
-  
   $form['idList'] = array(
     '#type' => 'fieldset',
     '#title' => t('PID List'),
@@ -76,6 +39,33 @@ function islandora_qa_create_form($form, $form_state) {
   $form['idList']['idField'] = array(
     '#type' => 'textarea',
     '#title' => t('List of PIDs, seperated by commas or newlines.'),
+  );
+
+  $form['idRange'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('PID Range'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+    '#group' => 'pidTabs',
+  );
+
+  $form['idRange']['namespace'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Namespace'),
+    '#default_value' => t('islandora'),
+    '#size' => 50,
+  );
+
+  $form['idRange']['numFrom'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Start Number'),
+    '#size' => 10,
+  );
+  
+  $form['idRange']['numTo'] = array(
+    '#type' => 'textfield',
+    '#title' => t('End Number'),
+    '#size' => 10,
   );
 
 	$form['submit_button'] = array(
@@ -100,7 +90,7 @@ function islandora_qa_create_form_submit($form, $form_state) {
   {
     $taskNum = db_insert('islandora_qa_task_info')
       ->fields(array('streamLook', 'streamEdit', 'form'))
-      ->values(array($form_state['values']['dataOne'], $form_state['values']['dataTwo'], $form_state['values']['dataForm']))
+      ->values(array('MEDIUM_SIZE', $form_state['values']['dataTwo'], $form_state['values']['dataForm']))
       ->execute();
     dpm("Task " . $taskNum . " was created");
     
@@ -118,7 +108,7 @@ function islandora_qa_create_form_submit($form, $form_state) {
       foreach($otherPIDs as $pid){
         db_insert('islandora_qa_task_items')
           ->fields(array('taskId', 'itemId'))
-          ->values(array($taskNum, $nameSpace . ':' . $pid))
+          ->values(array($taskNum, $pid))
           ->execute();
       }
     }
