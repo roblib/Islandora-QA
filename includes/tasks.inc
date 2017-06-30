@@ -88,9 +88,6 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     '#markup' => 'Number '.($progress[0]+1).' of '.$progress[1]
   );
   
-  #############
-  # TEST CODE #
-  #############
   module_load_include('inc', 'islandora', 'islandora');
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   
@@ -116,11 +113,6 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   $form['whatever'] = array(
     '#markup' => '<div><div class="viewer-panel">' . $viewer . '</div><div class="spacer-panel"></div>',
   );
-  
-  #############
-  # TEST CODE #
-  #############
-  
   
   $form['Hardcode'] = array(
     '#markup' => '<div class="form-panel">'
@@ -181,14 +173,6 @@ function islandora_qa_task_item_form_reject(array $form, array &$form_state) {
   drupal_goto('islandora_qa/task/'.($form_state['taskId']).'/reject/'.($form_state['itemId']));
 }
 
-
-/**
- *
- *
- *
- *
- *
- */
 function islandora_qa_task_reject_page_callback ($taskId, $itemId) {
   module_load_include('inc', 'islandora_qa', 'includes/db');
 
@@ -229,13 +213,6 @@ function islandora_qa_reject_form_submit(array $form, array &$form_state) {
   drupal_goto('islandora_qa/task/'.($form_state['taskId']));
 }
 
-/**
- *
- *
- *
- *
- *
- */
 function islandora_qa_task_delete_page_callback ($taskId) {
   module_load_include('inc', 'islandora_qa', 'includes/db');
 
