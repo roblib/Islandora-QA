@@ -94,9 +94,6 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   module_load_include('inc', 'islandora', 'islandora');
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   
-  //use an image as the default
-  $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/MEDIUM_SIZE'));
-  
   module_load_include('inc', 'islandora_qa', 'includes/utilities');
   $modelName = islandora_qa_get_viewer_name($object);
 
@@ -105,6 +102,15 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     $param = islandora_qa_get_viewer_params($object, $modelName);
   
     $viewer = islandora_get_viewer($param, $modelName, $object);
+  }
+  else
+  {
+    if(islandora_datastream_load('MEDIUM_SIZE', $object) != null)
+    {
+      $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/MEDIUM_SIZE'));
+    } else {
+      $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/TN'));
+    }
   }
   
   dpm($viewer);
