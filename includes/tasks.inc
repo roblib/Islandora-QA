@@ -119,7 +119,7 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   
   
   $form['Hardcode'] = array(
-    '#markup' => '<div id="" style="overflow-y: scroll; height:400px; width:58%; display:inline-block;">'
+    '#markup' => '<div id="" style="overflow-y: scroll; height:400px; width:58%; display:inline-block; background:white;">'
   );
   $form = array_merge($form, $subForm);
   $form['done_hardcoding'] = array(
