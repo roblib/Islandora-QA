@@ -88,18 +88,42 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     '#markup' => 'Number '.($progress[0]+1).' of '.$progress[1]
   );
   
-  //TODO Look into other ways to display images
-  $form['image'] = array(
-    '#markup' => theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/' .(islandora_qa_get_stream_look($taskId)),
-      'attributes' => array('class' => 'side-image'))),
+  #############
+  # TEST CODE #
+  #############
+  module_load_include('inc', 'islandora', 'islandora');
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  
+  //use an image as the default
+  $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/MEDIUM_SIZE'));
+  
+  module_load_include('inc', 'islandora_qa', 'includes/utilities');
+  $modelName = islandora_qa_get_viewer_name($object);
+
+  if($modelName != null)
+  {
+    $param = islandora_qa_get_viewer_params($object, $modelName);
+  
+    $viewer = islandora_get_viewer($param, $modelName, $object);
+  }
+  
+  dpm($viewer);
+  
+  $form['whatever'] = array(
+    '#markup' => '<div><div style="width:40%; display:inline-block;">' . $viewer . '</div><div style="width:2%; display:inline-block;"></div>',
   );
   
+  #############
+  # TEST CODE #
+  #############
+  
+  
   $form['Hardcode'] = array(
-    '#markup' => '<div id="" style="overflow-y: scroll; height:400px;">'
+    '#markup' => '<div id="" style="overflow-y: scroll; height:400px; width:58%; display:inline-block;">'
   );
   $form = array_merge($form, $subForm);
   $form['done_hardcoding'] = array(
-    '#markup' => '</div>'
+    '#markup' => '</div></div>'
   );
   
   // Make the Object label field required.
