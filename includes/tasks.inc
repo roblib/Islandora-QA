@@ -113,10 +113,8 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     }
   }
   
-  dpm($viewer);
-  
   $form['whatever'] = array(
-    '#markup' => '<div><div style="width:40%; display:inline-block;">' . $viewer . '</div><div style="width:2%; display:inline-block;"></div>',
+    '#markup' => '<div><div class="viewer-panel">' . $viewer . '</div><div class="spacer-panel"></div>',
   );
   
   #############
@@ -125,7 +123,7 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   
   
   $form['Hardcode'] = array(
-    '#markup' => '<div id="" style="overflow-y: scroll; height:400px; width:58%; display:inline-block; background:white;">'
+    '#markup' => '<div class="form-panel">'
   );
   $form = array_merge($form, $subForm);
   $form['done_hardcoding'] = array(

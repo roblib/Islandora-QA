@@ -1,4 +1,16 @@
-.side-image{
-  float:left;
-  margin-right:10px;
+.viewer-panel{
+  display:inline-block;
+  width:40%;
 }
+.spacer-panel{
+  display:inline-block;
+  width:2%;
+}
+.form-panel{
+  display:inline-block;
+  width:58%;
+  overflow-y: scroll;
+  height:400px;
+  background:white;
+}
+
