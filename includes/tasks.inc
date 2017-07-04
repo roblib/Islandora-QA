@@ -92,21 +92,28 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   
   module_load_include('inc', 'islandora_qa', 'includes/utilities');
-  $modelName = islandora_qa_get_viewer_name($object);
+  $viewName = islandora_qa_get_viewer_name($object);
 
-  if($modelName != null)
+  $viewer = null;
+
+  if($viewName != null)
   {
-    $param = islandora_qa_get_viewer_params($object, $modelName);
-  
-    $viewer = islandora_get_viewer($param, $modelName, $object);
+    $param = islandora_qa_get_viewer_params($object, $viewName);
+
+    $viewer = islandora_get_viewer($param, $viewName, $object);
   }
-  else
+  if($viewer == null)
   {
     if(islandora_datastream_load('MEDIUM_SIZE', $object) != null)
     {
       $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/MEDIUM_SIZE'));
     } else {
-      $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/TN'));
+      if(islandora_datastream_load('PREVIEW', $object) != null)
+      {
+        $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/PREVIEW'));
+      } else {
+        $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/TN'));
+      }
     }
   }
   
