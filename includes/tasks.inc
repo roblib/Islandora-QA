@@ -8,6 +8,7 @@
 
 function islandora_qa_task_page_callback($taskId) {
   module_load_include('inc', 'islandora_qa', 'includes/db');
+  module_load_include('inc', 'islandora_qa', 'includes/utilities');
   
   $object = null;
   while($object == null)
@@ -88,34 +89,58 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     '#markup' => 'Number '.($progress[0]+1).' of '.$progress[1]
   );
   
-  module_load_include('inc', 'islandora', 'islandora');
-  module_load_include('inc', 'islandora', 'includes/solution_packs');
-  
-  module_load_include('inc', 'islandora_qa', 'includes/utilities');
-  $viewName = islandora_qa_get_viewer_name($object);
+  $errorText = "";
 
   $viewer = null;
 
-  if($viewName != null)
-  {
-    $param = islandora_qa_get_viewer_params($object, $viewName);
+  $selectedDS = islandora_qa_get_stream_look($taskId);
 
-    $viewer = islandora_get_viewer($param, $viewName, $object);
-  }
-  if($viewer == null)
+  if($selectedDS != "")
   {
-    if(islandora_datastream_load('MEDIUM_SIZE', $object) != null)
+    if(islandora_datastream_load($selectedDS, $object) != null)
     {
-      $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/MEDIUM_SIZE'));
-    } else {
-      if(islandora_datastream_load('PREVIEW', $object) != null)
+      $viewer = islandora_qa_get_datastream_image($object, $selectedDS);
+      if($viewer == null)
       {
-        $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/PREVIEW'));
-      } else {
-        $viewer = theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/TN'));
+        $errorText = "The specified image datastream \"" . $selectedDS . "\" is not a valid image type";
       }
     }
+    else
+    {
+      $errorText = "The specified image datastream \"" . $selectedDS . "\" does not exist";
+    }
   }
+  else
+  {
+    module_load_include('inc', 'islandora', 'islandora');
+    module_load_include('inc', 'islandora', 'includes/solution_packs');
+
+    $viewName = islandora_qa_get_viewer_name($object);
+    
+    if($viewName != null)
+    {
+      $param = islandora_qa_get_viewer_params($object, $viewName);
+
+      $viewer = islandora_get_viewer($param, $viewName, $object);
+    }
+  }
+  
+  if($viewer == null)
+  {
+    $viewer = islandora_qa_get_fallback_image($object);
+    if($viewer == null)
+    {
+      if($errorText != "")
+      {
+        $errorText .= "</br>";
+      }
+      $errorText .= "No valid display was found for object ".($object -> id);
+    }
+  }
+  
+  $form['errors'] = array(
+    '#markup' => '<p class="qa-task-error">' . $errorText . '</p>', 
+  );
   
   $form['whatever'] = array(
     '#markup' => '<div><div class="viewer-panel">' . $viewer . '</div><div class="spacer-panel"></div>',

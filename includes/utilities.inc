@@ -55,3 +55,33 @@ function islandora_qa_get_viewer_params(AbstractObject $object, $viewerName)
   
   return $params;
 }
+
+function islandora_qa_get_datastream_image(AbstractObject $object, $dsid)
+{
+  $ds = islandora_datastream_load($dsid, $object);
+  if($ds == null)
+  {
+    return null;
+  }
+  // if mimetype starts with 'image'
+  if(strpos($ds->mimetype, "image") === 0)
+  {
+    return theme('image', array('path' => 'islandora/object/' .($object -> id). '/datastream/'.$dsid));
+  }
+  return null;
+}
+
+function islandora_qa_get_fallback_image(AbstractObject $object)
+{
+  $out;
+  $DATA_STREAMS = array('MEDIUM_SIZE', 'SAMPLE', 'TN');
+  for($i = 0; $i < count($DATA_STREAMS) ; $i++)
+  {
+    $out = islandora_qa_get_datastream_image($object, $DATA_STREAMS[$i]);
+    if($out != null)
+    {
+      return $out;
+    }
+  }
+  return null;
+}
