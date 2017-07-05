@@ -24,7 +24,26 @@ function islandora_qa_create_form($form, $form_state) {
     '#title' => t('Data form'),
     '#size' => 50,
   );
-
+  
+  $form['viewer'] = array(
+    '#type' => 'radios',
+    '#options' => array(
+      1 => t('Use Viewer'),
+      2 => t('Display DSID as image'),
+    ),
+    '#default_value' => 1,
+  );
+  $form['dsid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Datastream'),
+    '#size' => 50,
+    '#states' => array(
+      'visible' => array(   // action to take.
+        ':input[name="viewer"]' => array('value' => 2),
+      ),
+    ),
+  );
+  
   $form['pidTabs'] = array(
     '#type' => 'vertical_tabs',
   );
@@ -78,6 +97,8 @@ function islandora_qa_create_form($form, $form_state) {
 function islandora_qa_create_form_submit($form, $form_state) {
   $nameSpace = $form_state['values']['namespace'];
  
+  $imageDS = ($form_state['values']['viewer'] == 2)? $form_state['values']['dsid'] : "";
+ 
   $rangeStart = (int)$form_state['values']['numFrom'];
   $rangeEnd = (int)$form_state['values']['numTo'];
   //boolean value
@@ -90,7 +111,7 @@ function islandora_qa_create_form_submit($form, $form_state) {
   {
     $taskNum = db_insert('islandora_qa_task_info')
       ->fields(array('streamLook', 'streamEdit', 'form'))
-      ->values(array('MEDIUM_SIZE', $form_state['values']['dataTwo'], $form_state['values']['dataForm']))
+      ->values(array($imageDS, $form_state['values']['dataTwo'], $form_state['values']['dataForm']))
       ->execute();
     dpm("Task " . $taskNum . " was created");
     
@@ -117,5 +138,4 @@ function islandora_qa_create_form_submit($form, $form_state) {
   {
     dpm("The task did not have any valid objects specified and was not created");
   }
-         
 }
