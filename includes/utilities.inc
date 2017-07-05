@@ -74,7 +74,7 @@ function islandora_qa_get_datastream_image(AbstractObject $object, $dsid)
 function islandora_qa_get_fallback_image(AbstractObject $object)
 {
   $out;
-  $DATA_STREAMS = array('MEDIUM_SIZE', 'SAMPLE', 'TN');
+  $DATA_STREAMS = array('MEDIUM_SIZE', 'JPG', 'SAMPLE', 'TN');
   for($i = 0; $i < count($DATA_STREAMS) ; $i++)
   {
     $out = islandora_qa_get_datastream_image($object, $DATA_STREAMS[$i]);
