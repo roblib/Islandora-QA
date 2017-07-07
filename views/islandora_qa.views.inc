@@ -33,23 +33,23 @@ function islandora_qa_views_data() {
         'handler' => 'views_handler_sort',
       ),
     ),
-    'streamLook' => array(
-      'title' => t('First Data Stream'),
-      'help' => t('The data stream used to provide information for editing'),
+    'viewer' => array(
+      'title' => t('Viewer'),
+      'help' => t('A viewer that displays information about the current object'),
       'field' => array(
         'click sortable' => TRUE,
       ),
     ),
     'streamEdit' => array(
-      'title' => t('Second Data Stream'),
-      'help' => t('The data stream that is checked during the QA'),
+      'title' => t('Data Stream'),
+      'help' => t('A data stream that is checked during the QA'),
       'field' => array(
         'click sortable' => TRUE,
       ),
     ),
     'form' => array(
       'title' => t('Form'),
-      'help' => t('The form that is used to edit the second data stream'),
+      'help' => t('The form that is used to edit the data stream'),
       'field' => array(
         'click sortable' => TRUE,
       ),

@@ -110,8 +110,8 @@ function islandora_qa_create_form_submit($form, $form_state) {
   if($validRange || !empty($otherPIDs))
   {
     $taskNum = db_insert('islandora_qa_task_info')
-      ->fields(array('streamLook', 'streamEdit', 'form'))
-      ->values(array($imageDS, $form_state['values']['dataTwo'], $form_state['values']['dataForm']))
+      ->fields(array('viewer', 'viewerOptions', 'streamEdit', 'form'))
+      ->values(array($form_state['values']['viewer'], $imageDS, $form_state['values']['dataTwo'], $form_state['values']['dataForm']))
       ->execute();
     dpm("Task " . $taskNum . " was created");
     

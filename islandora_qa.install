@@ -20,10 +20,15 @@ function islandora_qa_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
-      'streamLook' => array(
-        'description' => 'A data stream that provides information',
+      'viewer' => array(
+        'description' => 'The name of the module that displays information about the object',
         'type' => 'varchar',
         'not null' => TRUE,
+        'length' => 255,
+      ),
+      'viewerOptions' => array(
+        'description' => 'Options for the viewer',
+        'type' => 'varchar',
         'length' => 255,
       ),
       'streamEdit' => array(

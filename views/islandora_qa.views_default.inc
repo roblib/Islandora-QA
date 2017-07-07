@@ -39,8 +39,8 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'id' => 'id',
-    'streamOne' => 'streamOne',
-    'streamTwo' => 'streamTwo',
+    'viewer' => 'viewer',
+    'editStream' => 'editStream',
     'form' => 'form',
     'count' => 'count',
   );
@@ -53,12 +53,12 @@ function islandora_qa_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'streamOne' => array(
+    'viewer' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'streamTwo' => array(
+    'editStream' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -96,13 +96,13 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['id']['alter']['path'] = 'islandora_qa/task/[id]';
   $handler->display->display_options['fields']['id']['alter']['target'] = '_blank';
   /* Field: Islandora QA: Stream Look */
-  $handler->display->display_options['fields']['streamOne']['id'] = 'streamLook';
-  $handler->display->display_options['fields']['streamOne']['table'] = 'islandora_qa_task_info';
-  $handler->display->display_options['fields']['streamOne']['field'] = 'streamLook';
+  $handler->display->display_options['fields']['viewer']['id'] = 'viewer';
+  $handler->display->display_options['fields']['viewer']['table'] = 'islandora_qa_task_info';
+  $handler->display->display_options['fields']['viewer']['field'] = 'viewer';
   /* Field: Islandora QA: Stream Edit */
-  $handler->display->display_options['fields']['streamTwo']['id'] = 'streamEdit';
-  $handler->display->display_options['fields']['streamTwo']['table'] = 'islandora_qa_task_info';
-  $handler->display->display_options['fields']['streamTwo']['field'] = 'streamEdit';
+  $handler->display->display_options['fields']['editStream']['id'] = 'streamEdit';
+  $handler->display->display_options['fields']['editStream']['table'] = 'islandora_qa_task_info';
+  $handler->display->display_options['fields']['editStream']['field'] = 'streamEdit';
   /* Field: Islandora QA: Form */
   $handler->display->display_options['fields']['form']['id'] = 'form';
   $handler->display->display_options['fields']['form']['table'] = 'islandora_qa_task_info';

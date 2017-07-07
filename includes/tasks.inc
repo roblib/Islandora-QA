@@ -24,8 +24,6 @@ function islandora_qa_task_page_callback($taskId) {
     }
   }
   
-  $image = islandora_datastream_load(islandora_qa_get_stream_look($taskId), $object);
-  
   $dataStream = islandora_qa_get_stream_edit($taskId);
   
   $formId = islandora_qa_get_form($taskId);
@@ -93,7 +91,7 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
 
   $viewer = null;
 
-  $selectedDS = islandora_qa_get_stream_look($taskId);
+  $selectedDS = islandora_qa_get_qa_viewer_options($taskId);
 
   if($selectedDS != "")
   {

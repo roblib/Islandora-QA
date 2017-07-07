@@ -30,9 +30,18 @@ function islandora_qa_get_progress_in_task($taskId) {
   return array($done, $all);
 }
 
-function islandora_qa_get_stream_look($taskId) {
+function islandora_qa_get_qa_viewer($taskId) {
   $stream = db_select('islandora_qa_task_info', 'q')
-    ->fields('q', array('streamLook'))
+    ->fields('q', array('viewer'))
+    ->condition('taskId', $taskId)
+    ->execute()
+    ->fetchField();
+  return $stream;
+}
+
+function islandora_qa_get_qa_viewer_options($taskId) {
+  $stream = db_select('islandora_qa_task_info', 'q')
+    ->fields('q', array('viewerOptions'))
     ->condition('taskId', $taskId)
     ->execute()
     ->fetchField();
