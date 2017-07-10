@@ -12,38 +12,6 @@
 function islandora_qa_create_form($form, $form_state) {
   $form = array();
   
-  $form['dataTwo'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Editing Data stream'),
-    '#default_value' => t('MODS'),
-    '#size' => 15,
-  );
-  
-  $form['dataForm'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Data form'),
-    '#size' => 50,
-  );
-  
-  $form['viewer'] = array(
-    '#type' => 'radios',
-    '#options' => array(
-      1 => t('Use Viewer'),
-      2 => t('Display DSID as image'),
-    ),
-    '#default_value' => 1,
-  );
-  $form['dsid'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Datastream'),
-    '#size' => 50,
-    '#states' => array(
-      'visible' => array(   // action to take.
-        ':input[name="viewer"]' => array('value' => 2),
-      ),
-    ),
-  );
-  
   $form['pidTabs'] = array(
     '#type' => 'vertical_tabs',
   );
@@ -86,6 +54,46 @@ function islandora_qa_create_form($form, $form_state) {
     '#title' => t('End Number'),
     '#size' => 10,
   );
+  
+  $form['dataTwo'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Editing Data stream'),
+    '#default_value' => t('MODS'),
+    '#size' => 15,
+  );
+  
+  $form['dataForm'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Data form'),
+    '#size' => 50,
+  );
+  
+  //define default built in viewers
+  $viewers = array(1 => t('Use Viewer'), 2 => t('Display DSID as image'));
+  
+  //add in external viewers
+  $qa_viewers = module_invoke_all('islandora_qa_viewer_info');
+  forEach($qa_viewers as $view)
+  {
+    $viewers[$view['callback']] = $view['label'];
+  }
+  
+  $form['viewer'] = array(
+    '#type' => 'radios',
+    '#options' => $viewers,
+    '#default_value' => 1,
+  );
+  
+  $form['options'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Datastream'),
+    '#size' => 50,
+    '#states' => array(
+      'visible' => array(   // action to take.
+        ':input[name="viewer"]' => array('value' => 2),
+      ),
+    ),
+  );
 
 	$form['submit_button'] = array(
 		'#type' => 'submit',
@@ -97,7 +105,7 @@ function islandora_qa_create_form($form, $form_state) {
 function islandora_qa_create_form_submit($form, $form_state) {
   $nameSpace = $form_state['values']['namespace'];
  
-  $imageDS = ($form_state['values']['viewer'] == 2)? $form_state['values']['dsid'] : "";
+  $imageDS = ($form_state['values']['viewer'] == 2)? $form_state['values']['options'] : "";
  
   $rangeStart = (int)$form_state['values']['numFrom'];
   $rangeEnd = (int)$form_state['values']['numTo'];
