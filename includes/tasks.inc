@@ -91,24 +91,25 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
 
   $viewer = null;
 
-  $selectedDS = islandora_qa_get_qa_viewer_options($taskId);
+  $viewerCallback = islandora_qa_get_qa_viewer($taskId);
+  $viewerOptions = islandora_qa_get_qa_viewer_options($taskId);
 
-  if($selectedDS != "")
+  if($viewerCallback == 2)
   {
-    if(islandora_datastream_load($selectedDS, $object) != null)
+    if(islandora_datastream_load($viewerOptions, $object) != null)
     {
-      $viewer = islandora_qa_get_datastream_image($object, $selectedDS);
+      $viewer = islandora_qa_get_datastream_image($object, $viewerOptions);
       if($viewer == null)
       {
-        $errorText = "The specified image datastream \"" . $selectedDS . "\" is not a valid image type";
+        $errorText = "The specified image datastream \"" . $viewerOptions . "\" is not a valid image type";
       }
     }
     else
     {
-      $errorText = "The specified image datastream \"" . $selectedDS . "\" does not exist";
+      $errorText = "The specified image datastream \"" . $viewerOptions . "\" does not exist";
     }
   }
-  else
+  if($viewerCallback == 1)
   {
     module_load_include('inc', 'islandora', 'islandora');
     module_load_include('inc', 'islandora', 'includes/solution_packs');
@@ -122,6 +123,15 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
       $viewer = islandora_get_viewer($param, $viewName, $object);
     }
   }
+  if($viewerCallback != 1 && $viewerCallback != 2)
+  {
+    $param = array(
+      'object' => $object,
+      'options' => $viewerOptions,
+    );
+    $viewer = $viewerCallback($param);
+  }
+  
   
   if($viewer == null)
   {
