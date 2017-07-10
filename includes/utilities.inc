@@ -113,9 +113,6 @@ function islandora_qa_image_viewer_callback ($params = array()){
     return $viewer;
   }
   
-  module_load_include('inc', 'islandora', 'islandora');
-  module_load_include('inc', 'islandora', 'includes/solution_packs');
-  
   if(islandora_datastream_load($dsid, $object) != null){
     $viewer = "<p class=\"qa-task-error\">The specified image datastream \"" . $dsid . "\" is not a valid image type</p>";
   }
