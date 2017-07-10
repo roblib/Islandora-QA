@@ -69,7 +69,10 @@ function islandora_qa_create_form($form, $form_state) {
   );
   
   //define default built in viewers
-  $viewers = array(1 => t('Use Viewer'), 2 => t('Display DSID as image'));
+  $viewers = array(
+    'islandora_qa_default_viewer_callback' => t('Use Viewer'),
+    'islandora_qa_image_viewer_callback' => t('Display DSID as image'),
+  );
   
   //add in external viewers
   $qa_viewers = module_invoke_all('islandora_qa_viewer_info');
@@ -90,7 +93,7 @@ function islandora_qa_create_form($form, $form_state) {
     '#size' => 50,
     '#states' => array(
       'visible' => array(   // action to take.
-        ':input[name="viewer"]' => array('value' => 2),
+        ':input[name="viewer"]' => array('value' => 'islandora_qa_image_viewer_callback'),
       ),
     ),
   );
@@ -105,7 +108,7 @@ function islandora_qa_create_form($form, $form_state) {
 function islandora_qa_create_form_submit($form, $form_state) {
   $nameSpace = $form_state['values']['namespace'];
  
-  $imageDS = ($form_state['values']['viewer'] == 2)? $form_state['values']['options'] : "";
+  $options = $form_state['values']['options'];
  
   $rangeStart = (int)$form_state['values']['numFrom'];
   $rangeEnd = (int)$form_state['values']['numTo'];
@@ -119,7 +122,7 @@ function islandora_qa_create_form_submit($form, $form_state) {
   {
     $taskNum = db_insert('islandora_qa_task_info')
       ->fields(array('viewer', 'viewerOptions', 'streamEdit', 'form'))
-      ->values(array($form_state['values']['viewer'], $imageDS, $form_state['values']['dataTwo'], $form_state['values']['dataForm']))
+      ->values(array($form_state['values']['viewer'], $options, $form_state['values']['dataTwo'], $form_state['values']['dataForm']))
       ->execute();
     dpm("Task " . $taskNum . " was created");
     

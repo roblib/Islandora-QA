@@ -85,3 +85,53 @@ function islandora_qa_get_fallback_image(AbstractObject $object)
   }
   return null;
 }
+
+function islandora_qa_default_viewer_callback ($params = array()){
+  module_load_include('inc', 'islandora', 'islandora');
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+
+  $object = $params['object'];
+
+  $viewName = islandora_qa_get_viewer_name($object);
+    
+  if($viewName != null)
+  {
+    $viewerParams = islandora_qa_get_viewer_params($object, $viewName);
+
+    return islandora_get_viewer($viewerParams, $viewName, $object);
+  }
+  return islandora_qa_get_fallback_image($object);
+}
+
+function islandora_qa_image_viewer_callback ($params = array()){
+  $object = $params['object'];
+  $dsid = $params['options'];
+  
+  $viewer = islandora_qa_get_datastream_image($object, $dsid);
+  //return if everything is working
+  if($viewer != null){
+    return $viewer;
+  }
+  
+  module_load_include('inc', 'islandora', 'islandora');
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  
+  if(islandora_datastream_load($dsid, $object) != null){
+    $viewer = "<p class=\"qa-task-error\">The specified image datastream \"" . $dsid . "\" is not a valid image type</p>";
+  }
+  else{
+    $viewer = "<p class=\"qa-task-error\">The specified image datastream \"" . $dsid . "\" does not exist</p>";
+  }
+  
+  $fallback = islandora_qa_get_fallback_image($object);
+  
+  if($fallback != null){
+    $viewer .= $fallback;
+  }
+  else{
+    $viewer = "<p class=\"qa-task-error\">No valid display was found for object \"". $object ."\"</p>";
+  }
+  
+  return $viewer;
+
+}

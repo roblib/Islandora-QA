@@ -93,37 +93,8 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
 
   $viewerCallback = islandora_qa_get_qa_viewer($taskId);
   $viewerOptions = islandora_qa_get_qa_viewer_options($taskId);
-
-  if($viewerCallback == 2)
-  {
-    if(islandora_datastream_load($viewerOptions, $object) != null)
-    {
-      $viewer = islandora_qa_get_datastream_image($object, $viewerOptions);
-      if($viewer == null)
-      {
-        $errorText = "The specified image datastream \"" . $viewerOptions . "\" is not a valid image type";
-      }
-    }
-    else
-    {
-      $errorText = "The specified image datastream \"" . $viewerOptions . "\" does not exist";
-    }
-  }
-  if($viewerCallback == 1)
-  {
-    module_load_include('inc', 'islandora', 'islandora');
-    module_load_include('inc', 'islandora', 'includes/solution_packs');
-
-    $viewName = islandora_qa_get_viewer_name($object);
-    
-    if($viewName != null)
-    {
-      $param = islandora_qa_get_viewer_params($object, $viewName);
-
-      $viewer = islandora_get_viewer($param, $viewName, $object);
-    }
-  }
-  if($viewerCallback != 1 && $viewerCallback != 2)
+  
+  if(function_exists($viewerCallback))
   {
     $param = array(
       'object' => $object,
@@ -131,24 +102,6 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     );
     $viewer = $viewerCallback($param);
   }
-  
-  
-  if($viewer == null)
-  {
-    $viewer = islandora_qa_get_fallback_image($object);
-    if($viewer == null)
-    {
-      if($errorText != "")
-      {
-        $errorText .= "</br>";
-      }
-      $errorText .= "No valid display was found for object ".($object -> id);
-    }
-  }
-  
-  $form['errors'] = array(
-    '#markup' => '<p class="qa-task-error">' . $errorText . '</p>', 
-  );
   
   $form['whatever'] = array(
     '#markup' => '<div><div class="viewer-panel">' . $viewer . '</div><div class="spacer-panel"></div>',
