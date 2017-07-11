@@ -1,0 +1,6 @@
+name = Default Viewer
+description = "A Simple QA Viewer for Islandora QA"
+dependencies[] = islandora
+core = 7.x
+version = 7.x-dev
+package = Islandora QA Viewers

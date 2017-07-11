@@ -1,0 +1,15 @@
+<?php
+
+function islandora_basic_qa_viewer_islandora_qa_viewer_info(){
+  return array(
+    'islandora_qa_default_viewer' => array(
+      'label' => t('Default Viewer'),
+      'callback' => t('islandora_basic_qa_viewer_callback'),
+    ),
+  );
+}
+
+function islandora_basic_qa_viewer_callback($params = array()){
+  module_load_include('inc', 'islandora_basic_qa_viewer', 'includes/utilities');
+  return islandora_basic_qa_viewer_default_viewer_callback($params);
+}

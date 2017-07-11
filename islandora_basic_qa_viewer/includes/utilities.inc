@@ -1,14 +1,14 @@
 <?php
 
-function MODEL_NAMES() {return array('islandora:sp_large_image_cmodel', 'islandora:sp_pdf', 'islandora:sp_videoCModel', 'islandora:sp-audioCModel');}
-function VIEWER_NAMES(){return array('islandora_large_image_viewers', 'islandora_pdf_viewers', 'islandora_video_viewers', 'islandora_audio_viewers');}
+function ISLANDORA_BASIC_QA_VIEWER_MODEL_NAMES() {return array('islandora:sp_large_image_cmodel', 'islandora:sp_pdf', 'islandora:sp_videoCModel', 'islandora:sp-audioCModel');}
+function ISLANDORA_BASIC_QA_VIEWER_VIEWER_NAMES(){return array('islandora_large_image_viewers', 'islandora_pdf_viewers', 'islandora_video_viewers', 'islandora_audio_viewers');}
 
 
-function islandora_qa_get_viewer_name(AbstractObject $object)
+function islandora_basic_qa_viewer_get_viewer_name(AbstractObject $object)
 {
   $models = $object->models;
-  $modelNames = MODEL_NAMES();
-  $viewerNames = VIEWER_NAMES();
+  $modelNames = ISLANDORA_BASIC_QA_VIEWER_MODEL_NAMES();
+  $viewerNames = ISLANDORA_BASIC_QA_VIEWER_VIEWER_NAMES();
   for($i = 0; $i < count($modelNames) ; $i++)
   {
     if(in_array($modelNames[$i], $models))
@@ -17,11 +17,11 @@ function islandora_qa_get_viewer_name(AbstractObject $object)
   return null;
 }
 
-function islandora_qa_get_viewer_params(AbstractObject $object, $viewerName)
+function islandora_basic_qa_viewer_get_viewer_params(AbstractObject $object, $viewerName)
 {
   $params = array();
   
-  $viewerNames = VIEWER_NAMES();
+  $viewerNames = ISLANDORA_BASIC_QA_VIEWER_VIEWER_NAMES();
   
   if($viewerName == 'islandora_large_image_viewers')
   {
@@ -56,7 +56,7 @@ function islandora_qa_get_viewer_params(AbstractObject $object, $viewerName)
   return $params;
 }
 
-function islandora_qa_get_datastream_image(AbstractObject $object, $dsid)
+function islandora_basic_qa_viewer_get_datastream_image(AbstractObject $object, $dsid)
 {
   $ds = islandora_datastream_load($dsid, $object);
   if($ds == null)
@@ -71,13 +71,13 @@ function islandora_qa_get_datastream_image(AbstractObject $object, $dsid)
   return null;
 }
 
-function islandora_qa_get_fallback_image(AbstractObject $object)
+function islandora_basic_qa_viewer_get_fallback_image(AbstractObject $object)
 {
   $out;
   $DATA_STREAMS = array('MEDIUM_SIZE', 'JPG', 'SAMPLE', 'TN');
   for($i = 0; $i < count($DATA_STREAMS) ; $i++)
   {
-    $out = islandora_qa_get_datastream_image($object, $DATA_STREAMS[$i]);
+    $out = islandora_basic_qa_viewer_get_datastream_image($object, $DATA_STREAMS[$i]);
     if($out != null)
     {
       return $out;
@@ -86,28 +86,29 @@ function islandora_qa_get_fallback_image(AbstractObject $object)
   return null;
 }
 
-function islandora_qa_default_viewer_callback ($params = array()){
+function islandora_basic_qa_viewer_default_viewer_callback ($params = array()){
   module_load_include('inc', 'islandora', 'islandora');
   module_load_include('inc', 'islandora', 'includes/solution_packs');
 
   $object = $params['object'];
 
-  $viewName = islandora_qa_get_viewer_name($object);
+  $viewName = islandora_basic_qa_viewer_get_viewer_name($object);
     
   if($viewName != null)
   {
-    $viewerParams = islandora_qa_get_viewer_params($object, $viewName);
+    $viewerParams = islandora_basic_qa_viewer_get_viewer_params($object, $viewName);
 
     return islandora_get_viewer($viewerParams, $viewName, $object);
   }
-  return islandora_qa_get_fallback_image($object);
+  return islandora_basic_qa_viewer_get_fallback_image($object);
 }
 
-function islandora_qa_image_viewer_callback ($params = array()){
+/*
+function islandora_basic_qa_viewer_image_viewer_callback ($params = array()){
   $object = $params['object'];
   $dsid = $params['options'];
   
-  $viewer = islandora_qa_get_datastream_image($object, $dsid);
+  $viewer = islandora_basic_qa_viewer_get_datastream_image($object, $dsid);
   //return if everything is working
   if($viewer != null){
     return $viewer;
@@ -120,7 +121,7 @@ function islandora_qa_image_viewer_callback ($params = array()){
     $viewer = "<p class=\"qa-task-error\">The specified image datastream \"" . $dsid . "\" does not exist</p>";
   }
   
-  $fallback = islandora_qa_get_fallback_image($object);
+  $fallback = islandora_basic_qa_viewer_get_fallback_image($object);
   
   if($fallback != null){
     $viewer .= $fallback;
@@ -132,3 +133,4 @@ function islandora_qa_image_viewer_callback ($params = array()){
   return $viewer;
 
 }
+*/

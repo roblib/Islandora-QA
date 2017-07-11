@@ -68,13 +68,6 @@ function islandora_qa_create_form($form, $form_state) {
     '#size' => 50,
   );
   
-  //define default built in viewers
-  $viewers = array(
-    'islandora_qa_default_viewer_callback' => t('Use Viewer'),
-    'islandora_qa_image_viewer_callback' => t('Display DSID as image'),
-  );
-  
-  //add in external viewers
   $qa_viewers = module_invoke_all('islandora_qa_viewer_info');
   forEach($qa_viewers as $view)
   {
@@ -85,17 +78,6 @@ function islandora_qa_create_form($form, $form_state) {
     '#type' => 'radios',
     '#options' => $viewers,
     '#default_value' => 1,
-  );
-  
-  $form['options'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Datastream'),
-    '#size' => 50,
-    '#states' => array(
-      'visible' => array(   // action to take.
-        ':input[name="viewer"]' => array('value' => 'islandora_qa_image_viewer_callback'),
-      ),
-    ),
   );
 
 	$form['submit_button'] = array(
@@ -108,7 +90,7 @@ function islandora_qa_create_form($form, $form_state) {
 function islandora_qa_create_form_submit($form, $form_state) {
   $nameSpace = $form_state['values']['namespace'];
  
-  $options = $form_state['values']['options'];
+  $options = "";
  
   $rangeStart = (int)$form_state['values']['numFrom'];
   $rangeEnd = (int)$form_state['values']['numTo'];
