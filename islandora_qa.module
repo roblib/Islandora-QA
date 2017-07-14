@@ -15,14 +15,14 @@ define('ISLANDORA_QA_STATUS__REJECTED', 2);
  */
 function islandora_qa_menu() {
   $items = array();
-
+  
   $items['admin/islandora/tools/qa'] = array(
     'title' => 'Islandora QA',
     'description' => 'Setup a workflow for QA',
     'page callback' => 'drupal_get_form',
     'access arguments' => array('administer site configuration'),
-    'page arguments' => array('islandora_qa_create_form'),
-    'file' => 'includes/create.form.inc',
+    'page arguments' => array('islandora_qa_task_creation_form'),
+    'file' => 'includes/creation.form.inc',
     'type' => MENU_NORMAL_ITEM,
   );
   

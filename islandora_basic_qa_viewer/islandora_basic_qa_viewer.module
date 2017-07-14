@@ -4,12 +4,40 @@ function islandora_basic_qa_viewer_islandora_qa_viewer_info(){
   return array(
     'islandora_qa_default_viewer' => array(
       'label' => t('Default Viewer'),
-      'callback' => t('islandora_basic_qa_viewer_callback'),
+      'callback' => t('islandora_basic_qa_viewer_one_callback'),
+    ),
+    'islandora_qa_image_viewer' => array(
+      'label' => t('Image Viewer'),
+      'callback' => t('islandora_basic_qa_viewer_two_callback'),
     ),
   );
 }
 
-function islandora_basic_qa_viewer_callback($params = array()){
+function islandora_basic_qa_viewer_one_callback($params = array()){
   module_load_include('inc', 'islandora_basic_qa_viewer', 'includes/utilities');
-  return islandora_basic_qa_viewer_default_viewer_callback($params);
+  
+  $type = $params['function'];
+  switch($type){
+    case 'view':
+      return islandora_basic_qa_viewer_default_viewer_callback($params);
+    default:
+      return null;
+  }
+}
+
+function islandora_basic_qa_viewer_two_callback($params = array()){
+  module_load_include('inc', 'islandora_basic_qa_viewer', 'includes/utilities');
+  module_load_include('inc', 'islandora_basic_qa_viewer', 'includes/options.form');
+  
+  $type = $params['function'];
+  switch($type){
+    case 'view':
+      return islandora_basic_qa_viewer_image_viewer_callback($params);
+    case 'options':
+      return islandora_basic_qa_viewer_image_viewer_options_form();
+    case 'process':
+      return islandora_basic_qa_viewer_image_viewer_process_options($params);
+    default:
+      return null;
+  }
 }

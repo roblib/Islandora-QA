@@ -103,7 +103,7 @@ function islandora_basic_qa_viewer_default_viewer_callback ($params = array()){
   return islandora_basic_qa_viewer_get_fallback_image($object);
 }
 
-/*
+
 function islandora_basic_qa_viewer_image_viewer_callback ($params = array()){
   $object = $params['object'];
   $dsid = $params['options'];
@@ -133,4 +133,3 @@ function islandora_basic_qa_viewer_image_viewer_callback ($params = array()){
   return $viewer;
 
 }
-*/

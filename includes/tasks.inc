@@ -97,6 +97,7 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   if(function_exists($viewerCallback))
   {
     $param = array(
+      'function' => 'view',
       'object' => $object,
       'options' => $viewerOptions,
     );
