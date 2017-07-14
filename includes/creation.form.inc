@@ -154,8 +154,16 @@ function islandora_qa_process_creation_form($form, &$form_state){
   //boolean value
   $validRange = $rangeEnd > $rangeStart && ($rangeEnd - $rangeStart) < 10000;
   
-  //array of strings
-  $otherPIDs = preg_split('/\s*[,\n]\s*/', $form_state['multistep_values']['one']['idField'], -1, PREG_SPLIT_NO_EMPTY);
+  $PIDs = preg_split('/\s*[,\n]\s*/', $form_state['multistep_values']['one']['idField'], -1, PREG_SPLIT_NO_EMPTY);
+  
+  if($validRange)
+  {
+    for( $i = $rangeStart; $i <= $rangeEnd; $i++ ) {
+      $PIDs[] = $nameSpace . ':' . $i;
+    }
+  }
+  
+  $PIDs = array_unique($PIDs);
   
   $editDS = $form_state['multistep_values']['one']['edit_datastream'];
   $editForm = $form_state['multistep_values']['one']['edit_datastream_form'];
@@ -173,26 +181,14 @@ function islandora_qa_process_creation_form($form, &$form_state){
     ->fields(array('viewer', 'viewerOptions', 'streamEdit', 'form'))
     ->values(array($viewer, $options, $editDS, $editForm))
     ->execute();
+
+  foreach($PIDs as $pid){
+    db_insert('islandora_qa_task_items')
+      ->fields(array('taskId', 'itemId'))
+      ->values(array($taskNum, $pid))
+      ->execute();
+  }
   dpm("Task " . $taskNum . " was created");
-    
-  if($validRange)
-  {
-    for( $i = $rangeStart; $i <= $rangeEnd; $i++ ) {
-      db_insert('islandora_qa_task_items')
-        ->fields(array('taskId', 'itemId'))
-        ->values(array($taskNum, $nameSpace . ':' . $i))
-        ->execute();
-    }
-  }
-  if(!empty($otherPIDs))
-  {
-    foreach($otherPIDs as $pid){
-      db_insert('islandora_qa_task_items')
-        ->fields(array('taskId', 'itemId'))
-        ->values(array($taskNum, $pid))
-        ->execute();
-    }
-  }
 }
 
 function islandora_qa_task_creation_validate_page_one($form, &$form_state) {
