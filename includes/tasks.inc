@@ -56,11 +56,10 @@ function islandora_qa_datastream_form(array $form, array &$form_state, $taskId, 
   $association = xml_form_builder_datastream_form_get_association($form_state, $associations);
   //get an association
   foreach ($associations as $a) {
-        if (array_key_exists('id', $a) && $a['id']==$formId) {
-            $association = $a;
-        }
+    if (array_key_exists('id', $a) && $a['id']==$formId) {
+      $association = $a;
     }
-  
+  }
 
   return isset($association) ?
     islandora_qa_task_item_form($form, $form_state, $taskId, $object, $association) :
@@ -86,8 +85,6 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   $form['progress'] = array(
     '#markup' => 'Number '.($progress[0]+1).' of '.$progress[1]
   );
-  
-  $errorText = "";
 
   $viewer = null;
 
@@ -201,7 +198,6 @@ function islandora_qa_reject_form(array $form, array &$form_state, $taskId, $ite
 }
 
 function islandora_qa_reject_form_submit(array $form, array &$form_state) {
-  
   islandora_qa_reject_in_task($form_state['taskId'], $form_state['itemId'], $form_state['values']['reason']);
   
   drupal_goto('islandora_qa/task/'.($form_state['taskId']));
@@ -234,7 +230,6 @@ function islandora_qa_delete_form(array $form, array &$form_state, $taskId) {
 }
 
 function islandora_qa_delete_form_submit(array $form, array &$form_state) {
-  
   islandora_qa_delete_task($form_state['taskId']);
   
   drupal_goto('islandora_qa/list/tasks');

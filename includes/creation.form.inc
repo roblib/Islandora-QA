@@ -112,7 +112,6 @@ function islandora_qa_task_creation_page_two_form($form, &$form_state){
 }
 
 function islandora_qa_task_creation_form_validate ($form, &$form_state) {
-
   switch ($form_state['triggering_element']['#value']) {
     case 'Next':
       return islandora_qa_task_creation_validate_page_one($form, $form_state);
@@ -124,7 +123,6 @@ function islandora_qa_task_creation_form_validate ($form, &$form_state) {
 }
 
 function islandora_qa_task_creation_form_submit ($form, &$form_state) {
-
   switch ($form_state['triggering_element']['#value']) {
     case 'Next':
       $form_state['multistep_values'][$form_state['stage']] = $form_state['values'];
