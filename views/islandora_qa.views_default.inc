@@ -95,10 +95,13 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['id']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['id']['alter']['path'] = 'islandora_qa/task/[id]';
   $handler->display->display_options['fields']['id']['alter']['target'] = '_blank';
-  /* Field: Islandora QA: Stream Look */
+  /* Field: Islandora QA: Viewer */
   $handler->display->display_options['fields']['viewer']['id'] = 'viewer';
   $handler->display->display_options['fields']['viewer']['table'] = 'islandora_qa_task_info';
   $handler->display->display_options['fields']['viewer']['field'] = 'viewer';
+  $handler->display->display_options['fields']['viewer']['label'] = 'Viewer';
+  $handler->display->display_options['fields']['viewer']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['viewer']['alter']['text'] = '[viewer-text]';
   /* Field: Islandora QA: Stream Edit */
   $handler->display->display_options['fields']['editStream']['id'] = 'streamEdit';
   $handler->display->display_options['fields']['editStream']['table'] = 'islandora_qa_task_info';

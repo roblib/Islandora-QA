@@ -37,6 +37,7 @@ function islandora_qa_views_data() {
       'title' => t('Viewer'),
       'help' => t('A viewer that displays information about the current object'),
       'field' => array(
+        'handler' => 'IslandoraQAViewerNameFieldHandler',
         'click sortable' => TRUE,
       ),
     ),
