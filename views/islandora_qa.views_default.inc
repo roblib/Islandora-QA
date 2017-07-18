@@ -270,6 +270,48 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+  /* Filter criterion: Islandora QA: Item Status */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'islandora_qa_task_items';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['status']['expose']['operator_id'] = 'status_op';
+  $handler->display->display_options['filters']['status']['expose']['label'] = 'Item Status';
+  $handler->display->display_options['filters']['status']['expose']['operator'] = 'status_op';
+  $handler->display->display_options['filters']['status']['expose']['identifier'] = 'status';
+  $handler->display->display_options['filters']['status']['is_grouped'] = TRUE;
+  $handler->display->display_options['filters']['status']['group_info']['label'] = 'Item Status';
+  $handler->display->display_options['filters']['status']['group_info']['identifier'] = 'status';
+  $handler->display->display_options['filters']['status']['group_info']['group_items'] = array(
+    1 => array(
+      'title' => 'Not Done',
+      'operator' => '=',
+      'value' => array(
+        'value' => '0',
+        'min' => '',
+        'max' => '',
+      ),
+    ),
+    2 => array(
+      'title' => 'Done',
+      'operator' => '=',
+      'value' => array(
+        'value' => '1',
+        'min' => '',
+        'max' => '',
+      ),
+    ),
+    3 => array(
+      'title' => 'Rejected',
+      'operator' => '=',
+      'value' => array(
+        'value' => '2',
+        'min' => '',
+        'max' => '',
+      ),
+    ),
+  );
   
   /* Display: Admin Task Page */
   $handler = $view->new_display('page', 'Admin Task Page', 'islandora_qa_task_admin');
