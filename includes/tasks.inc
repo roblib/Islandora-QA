@@ -101,15 +101,11 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     $viewer = $viewerCallback($param);
   }
   
-  $form['whatever'] = array(
-    '#markup' => '<div><div class="viewer-panel">' . $viewer . '</div><div class="spacer-panel"></div>',
-  );
-  
-  $form['Hardcode'] = array(
-    '#markup' => '<div class="form-panel">'
+  $form['open_panels'] = array(
+    '#markup' => '<div><div class="viewer-panel">' . $viewer . '</div><div class="spacer-panel"></div><div class="form-panel">',
   );
   $form = array_merge($form, $subForm);
-  $form['done_hardcoding'] = array(
+  $form['close_panels'] = array(
     '#markup' => '</div></div>'
   );
   
