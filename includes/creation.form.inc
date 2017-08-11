@@ -188,7 +188,8 @@ function islandora_qa_process_creation_form($form, &$form_state){
       ->values(array($taskNum, $pid))
       ->execute();
   }
-  dpm("Task " . $taskNum . " was created");
+  $message = "Task " . $taskNum . " was created";
+  drupal_set_message($message);
 }
 
 function islandora_qa_task_creation_validate_page_one($form, &$form_state) {
