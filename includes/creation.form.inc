@@ -98,6 +98,12 @@ function islandora_qa_task_creation_page_two_form($form, &$form_state){
   
   $form = $qa_viewer($params);
   
+  if($form == null) {
+    $form['message'] = array(
+		  '#markup' => 'The selected viewer has no options.<br/>',
+	  );
+  }
+  
   $form['back'] = array(
 		'#type' => 'submit',
 		'#value' => t('Back'),
