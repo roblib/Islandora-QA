@@ -199,10 +199,16 @@ function islandora_qa_process_creation_form($form, &$form_state){
 }
 
 function islandora_qa_task_creation_validate_page_one($form, &$form_state) {
+  $MAX_RANGE = 10000;
+
   $rangeStart = (int)$form_state['values']['num_from'];
   $rangeEnd = (int)$form_state['values']['num_to'];
+
+  if($rangeEnd - $rangeStart >= $MAX_RANGE)
+    form_set_error('range_limit', 'The specified range of pids can not be larger than ' . ($MAX_RANGE -1));
+
   //boolean value
-  $validRange = $rangeEnd > $rangeStart && ($rangeEnd - $rangeStart) < 10000;
+  $validRange = $rangeEnd > $rangeStart && ($rangeEnd - $rangeStart) < $MAX_RANGE;
   
   //array of strings
   $otherPIDs = preg_split('/\s*[,\n]\s*/', $form_state['values']['idField'], -1, PREG_SPLIT_NO_EMPTY);
