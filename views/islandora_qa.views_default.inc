@@ -126,7 +126,7 @@ function islandora_qa_views_default_views() {
   /* Display: User Task Page */
   $handler = $view->new_display('page', 'User Task Page', 'islandora_qa_task_page');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Your QA Tasks';
+  $handler->display->display_options['title'] = 'Islandora QA - Tasks';
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'islandora qa work on task';
@@ -256,7 +256,7 @@ function islandora_qa_views_default_views() {
   /* Display: User Task Page */
   $handler = $view->new_display('page', 'User Task Page', 'islandora_qa_task_page');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Your QA Tasks';
+  $handler->display->display_options['title'] = 'Islandora QA - Items';
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'islandora qa manage task';
