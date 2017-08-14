@@ -26,6 +26,16 @@ function islandora_qa_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   
+  $items['islandora_qa/list/tasks/new'] = array(
+    'title' => 'New Task',
+    'description' => 'Create a new QA Task',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('islandora_qa_task_creation_form'),
+    'access callback' => 'islandora_qa_task_edit',
+    'file' => 'includes/creation.form.inc',
+    'type' => MENU_LOCAL_ACTION,
+  );
+  
   $items['islandora_qa/task/%'] = array(
     'title' => 'Task @item',
     'title arguments' => array('@item' => 2),
