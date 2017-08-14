@@ -212,6 +212,11 @@ function islandora_qa_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'name' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'reject' => array(
       'align' => '',
       'separator' => '',
@@ -230,6 +235,11 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'No sets available.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
+  /* Relationship: Islandora Batch: Set Creator */
+  $handler->display->display_options['relationships']['uid']['id'] = 'user';
+  $handler->display->display_options['relationships']['uid']['table'] = 'islandora_qa_task_items';
+  $handler->display->display_options['relationships']['uid']['field'] = 'user';
+  $handler->display->display_options['relationships']['uid']['required'] = FALSE;
   /* Field: Islandora QA: Item ID */
   $handler->display->display_options['fields']['itemId']['id'] = 'itemId';
   $handler->display->display_options['fields']['itemId']['table'] = 'islandora_qa_task_items';
@@ -241,6 +251,13 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['taskId']['id'] = 'taskId';
   $handler->display->display_options['fields']['taskId']['table'] = 'islandora_qa_task_items';
   $handler->display->display_options['fields']['taskId']['field'] = 'taskId';
+  /* Field: Islandora QA: User Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['name']['label'] = 'User';
+  $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
   /* Field: Islandora QA: Item Status */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'islandora_qa_task_items';

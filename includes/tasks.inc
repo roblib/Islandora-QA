@@ -47,7 +47,7 @@ function islandora_qa_datastream_form(array $form, array &$form_state, $taskId, 
 
   $associations = xml_form_builder_datastream_form_get_associations($form_state, $object->models, $dsid);
   if(empty($associations)){
-    islandora_qa_reject_in_task($taskId, $object->id, 'The datastream does not have any associated forms or does not exist');
+    islandora_qa_auto_reject_in_task($taskId, $object->id, 'The datastream does not have any associated forms or does not exist');
     //reload same page
     drupal_goto('islandora_qa/task/'.($taskId));
   }
@@ -142,6 +142,8 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
  *   The drupal form state.
  */
 function islandora_qa_task_item_form_submit(array $form, array &$form_state) {
+  global $user;
+
   $object = islandora_object_load($form_state['itemId']);
   $association = $form_state['association'];
   $label = NULL;
@@ -153,7 +155,7 @@ function islandora_qa_task_item_form_submit(array $form, array &$form_state) {
   $document = $xml_form->submit($form, $form_state);
   xml_form_builder_update_object($object, $association, $document, $label);
   
-  islandora_qa_mark_done_in_task($form_state['taskId'], $form_state['itemId']);
+  islandora_qa_mark_done_in_task($form_state['taskId'], $form_state['itemId'], $user->uid);
 }
 
 function islandora_qa_task_item_form_reject(array $form, array &$form_state) {
@@ -194,7 +196,9 @@ function islandora_qa_reject_form(array $form, array &$form_state, $taskId, $ite
 }
 
 function islandora_qa_reject_form_submit(array $form, array &$form_state) {
-  islandora_qa_reject_in_task($form_state['taskId'], $form_state['itemId'], $form_state['values']['reason']);
+  global $user;
+
+  islandora_qa_reject_in_task($form_state['taskId'], $form_state['itemId'], $form_state['values']['reason'], $user->uid);
   
   drupal_goto('islandora_qa/task/'.($form_state['taskId']));
 }

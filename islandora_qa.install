@@ -74,6 +74,11 @@ function islandora_qa_schema() {
         'type' => 'varchar',
         'length' => 255,
       ),
+      'user' => array(
+        'description' => 'The user that worked on this item',
+        'type' => 'int',
+        'size' => 'big',
+      ),
     ),
     'primary key' => array('taskId', 'itemId'),
   );

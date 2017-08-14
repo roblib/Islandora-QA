@@ -122,6 +122,33 @@ function islandora_qa_views_data() {
         'click sortable' => TRUE,
       ),
     ),
+    'user' => array(
+      'title' => t('User ID'),
+      'help' => t('ID of the user who created a set.'),
+      'field' => array(
+        'handler' => 'views_handler_field_user',
+        'click sortable' => TRUE,
+      ),
+      'argument' => array(
+        'handler' => 'views_handler_argument_user_uid',
+        'name field' => 'name',
+      ),
+      'filter' => array(
+        'title' => t('Name'),
+        'handler' => 'views_handler_filter_user_name',
+      ),
+      'sort' => array(
+        'handler' => 'views_handler_sort',
+      ),
+      'relationship' => array(
+        'base' => 'users',
+        'base field' => 'uid',
+        'handler' => 'views_handler_relationship',
+        'label' => t('Set creator'),
+        'title' => t('Set Creator'),
+        'help' => t('The user who created a given set.'),
+      ),
+    ),
   );
 
   return $data;

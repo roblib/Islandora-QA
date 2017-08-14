@@ -66,21 +66,30 @@ function islandora_qa_get_form($taskId) {
   return $form;
 }
 
-function islandora_qa_mark_done_in_task($taskId, $itemId) {
+function islandora_qa_mark_done_in_task($taskId, $itemId, $user) {
   db_update('islandora_qa_task_items')
-    ->fields(array('status' => 1))
+    ->fields(array('status' => 1, 'user' => $user))
     ->condition('taskId', $taskId)
     ->condition('itemId', $itemId)
     ->execute();
 } 
 
-function islandora_qa_reject_in_task($taskId, $itemId, $reason) {
+function islandora_qa_reject_in_task($taskId, $itemId, $reason, $user) {
+  db_update('islandora_qa_task_items')
+    ->fields(array('status' => 2, 'rejectionReason' => $reason, 'user' => $user))
+    ->condition('taskId', $taskId)
+    ->condition('itemId', $itemId)
+    ->execute();
+}
+
+//Rejects item but does not define a user
+function islandora_qa_auto_reject_in_task($taskId, $itemId, $reason) {
   db_update('islandora_qa_task_items')
     ->fields(array('status' => 2, 'rejectionReason' => $reason))
     ->condition('taskId', $taskId)
     ->condition('itemId', $itemId)
     ->execute();
-} 
+}
 
 function islandora_qa_delete_task($taskId) {
     db_delete('islandora_qa_task_info')
