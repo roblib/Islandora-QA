@@ -1,7 +1,8 @@
 <?php
 
-function islandora_qa_task_creation_form ($form, &$form_state) {
+function islandora_qa_task_creation_form ($form, &$form_state, $management = FALSE) {
   if (!isset($form_state['stage'])) $form_state['stage'] = 'one';
+  if (!isset($form_state['management'])) $form_state['management'] = $management;
   
   $form = array();
   
@@ -196,6 +197,8 @@ function islandora_qa_process_creation_form($form, &$form_state){
   }
   $message = "Task " . $taskNum . " was created";
   drupal_set_message($message);
+  
+  drupal_goto($form_state['management'] ? 'admin/reports/islandora_qa_tasks' : 'islandora_qa/list/tasks');
 }
 
 function islandora_qa_task_creation_validate_page_one($form, &$form_state) {
