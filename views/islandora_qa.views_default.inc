@@ -94,7 +94,6 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['id']['field'] = 'taskId';
   $handler->display->display_options['fields']['id']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['id']['alter']['path'] = 'islandora_qa/list/items/[id]';
-  $handler->display->display_options['fields']['id']['alter']['target'] = '_blank';
   /* Field: Islandora QA: Viewer */
   $handler->display->display_options['fields']['viewer']['id'] = 'viewer';
   $handler->display->display_options['fields']['viewer']['table'] = 'islandora_qa_task_info';
