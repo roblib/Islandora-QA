@@ -202,35 +202,3 @@ function islandora_qa_reject_form_submit(array $form, array &$form_state) {
   
   drupal_goto('islandora_qa/task/'.($form_state['taskId']));
 }
-
-function islandora_qa_task_delete_page_callback ($taskId) {
-  module_load_include('inc', 'islandora_qa', 'includes/db');
-
-  return drupal_get_form('islandora_qa_delete_form', $taskId);
-}
-
-function islandora_qa_delete_form(array $form, array &$form_state, $taskId) {
-  $form = array();
-  $form_state['taskId'] = $taskId;
-  
-  $form['delete'] = array(
-    '#type' => 'submit',
-    '#value' => t('Delete'),
-    '#name' => 'reject',
-    '#submit' => array('islandora_qa_delete_form_submit'),
-  );
-  
-  $form['cancel'] = array(
-    '#type' => 'link',
-    '#href' => ('islandora_qa/list/tasks'),
-    '#title' => t('cancel'),
-  );
-  
-  return $form;
-}
-
-function islandora_qa_delete_form_submit(array $form, array &$form_state) {
-  islandora_qa_delete_task($form_state['taskId']);
-  
-  drupal_goto('islandora_qa/list/tasks');
-}

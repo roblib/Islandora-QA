@@ -140,13 +140,6 @@ class IslandoraQAViewsFieldHandlerTaskActions extends IslandoraQAViewsFieldHandl
           '!task_id' => $this->getTaskId($values),
         )),
       ),
-      array(
-        'title' => t('Delete Task'),
-        'href' => format_string('!base/!set_id/delete', array(
-          '!base' => $this->actionBasePath(),
-          '!set_id' => $this->getTaskId($values),
-        )),
-      ),
     );
   }
 

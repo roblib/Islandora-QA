@@ -37,19 +37,19 @@ function islandora_qa_menu() {
   );
   
   $delete_set_base = array(
-    'page callback' => 'islandora_qa_task_delete_page_callback',
+    'page callback' => 'islandora_qa_delete_task_page_callback',
     'access callback' => 'islandora_qa_task_edit',
-    'file' => 'includes/tasks.inc',
+    'file' => 'includes/menu.inc',
   );
   $items['islandora_qa/list/items/%islandora_qa_task/delete'] = $delete_set_base + array(
     'title' => 'Delete task',
-    'page arguments' => array(3),
+    'page arguments' => array(3, FALSE),
     'access arguments' => array(3),
     'type' => MENU_LOCAL_ACTION,
   );
   $items['admin/reports/islandora_qa_items/%islandora_qa_task/delete'] = $delete_set_base + array(
     'title' => 'Delete task',
-    'page arguments' => array(3),
+    'page arguments' => array(3, TRUE),
     'access arguments' => array(3),
     'type' => MENU_LOCAL_ACTION,
   );
@@ -70,15 +70,6 @@ function islandora_qa_menu() {
     'page callback' => 'islandora_qa_task_reject_page_callback',
     'page arguments' => array(2,4),
     'access callback' => 'islandora_qa_task_work_all',
-    'file' => 'includes/tasks.inc',
-  );
-  
-    $items['islandora_qa/task/%/delete'] = array(
-    'title' => 'Delete @item',
-    'title arguments' => array('@item' => 2),
-    'page callback' => 'islandora_qa_task_delete_page_callback',
-    'page arguments' => array(2),
-    'access callback' => 'islandora_qa_task_edit_all',
     'file' => 'includes/tasks.inc',
   );
   
