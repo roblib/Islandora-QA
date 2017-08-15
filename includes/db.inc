@@ -5,6 +5,16 @@
  * Database Helper Functions.
  */
  
+ function islandora_qa_task_exists($taskId) {
+  $result = db_select('islandora_qa_task_items', 'q')
+    ->fields('q', array('itemId'))
+    ->condition('taskId', $taskId)
+    ->countQuery()
+    ->execute()
+    ->fetchField();
+  return $result > 0;
+}
+ 
 function islandora_qa_get_next_in_task($taskId) {
   $item_id = db_select('islandora_qa_task_items', 'q')
     ->fields('q', array('itemId'))
