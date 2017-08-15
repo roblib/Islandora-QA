@@ -20,7 +20,7 @@ function islandora_qa_task_page_callback($taskId) {
     $object = islandora_object_load($nextId);
     if($object == null)
     {
-      islandora_qa_reject_in_task($taskId, $nextId, 'The specified object does not exist');
+      islandora_qa_auto_reject_in_task($taskId, $nextId, 'The specified object does not exist');
     }
   }
   
