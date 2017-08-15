@@ -44,7 +44,7 @@ function islandora_qa_menu() {
   
   $work_task_base = array(
     'page callback' => 'islandora_qa_task_page_callback',
-    'access callback' => 'islandora_qa_task_edit',
+    'access callback' => 'islandora_qa_task_work',
     'file' => 'includes/tasks.inc',
   );
   $items['islandora_qa/list/items/%islandora_qa_task/work'] = $work_task_base + array(
@@ -127,18 +127,24 @@ function islandora_qa_admin_paths_alter(&$paths) {
 
 function islandora_qa_task_work_all() {
   global $user;
-  return user_access('islandora qa work on task', $user);
+  return user_access('ISLANDORA_QA_WORK', $user);
 }
 
 function islandora_qa_task_edit_all() {
   global $user;
-  return user_access('islandora qa manage task', $user);
+  return user_access('ISLANDORA_QA_MANAGE', $user);
+}
+
+function islandora_qa_task_work($id) {
+  global $user;
+  module_load_include('inc', 'islandora_qa', 'includes/db');
+  return islandora_qa_task_exists($id) && user_access('ISLANDORA_QA_WORK', $user);
 }
 
 function islandora_qa_task_edit($id) {
   global $user;
   module_load_include('inc', 'islandora_qa', 'includes/db');
-  return islandora_qa_task_exists($id) && user_access('islandora qa manage task', $user);
+  return islandora_qa_task_exists($id) && user_access('ISLANDORA_QA_MANAGE', $user);
 }
 
 /**
@@ -147,12 +153,12 @@ function islandora_qa_task_edit($id) {
 function islandora_qa_permission() {
   $perms = array();
 
-  $perms['islandora qa manage task'] = array(
+  $perms['ISLANDORA_QA_MANAGE'] = array(
     'title' => t('Islandora QA Task manage'),
     'description' => t('Allow full management of all QA Tasks'),
   );
   
-  $perms['islandora qa work on task'] = array(
+  $perms['ISLANDORA_QA_WORK'] = array(
     'title' => t('Islandora QA Task work'),
     'description' => t('Allow work on any QA Task'),
   );

@@ -123,7 +123,7 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['title'] = 'Islandora QA - Tasks';
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'islandora qa work on task';
+  $handler->display->display_options['access']['perm'] = 'ISLANDORA_QA_WORK';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: User: Current */
@@ -139,7 +139,7 @@ function islandora_qa_views_default_views() {
   $handler = $view->new_display('page', 'Admin Task Page', 'islandora_qa_task_admin');
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'islandora qa manage task';
+  $handler->display->display_options['access']['perm'] = 'ISLANDORA_QA_MANAGE';
   $handler->display->display_options['path'] = 'admin/reports/islandora_qa_tasks';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Islandora QA Tasks';
@@ -285,7 +285,7 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['title'] = 'Islandora QA - Items';
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'islandora qa manage task';
+  $handler->display->display_options['access']['perm'] = 'ISLANDORA_QA_WORK';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: User: Current */
@@ -343,7 +343,7 @@ function islandora_qa_views_default_views() {
   $handler = $view->new_display('page', 'Admin Task Page', 'islandora_qa_task_admin');
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'islandora qa manage task';
+  $handler->display->display_options['access']['perm'] = 'ISLANDORA_QA_MANAGE';
   $handler->display->display_options['path'] = 'admin/reports/islandora_qa_items';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Islandora QA Items';
