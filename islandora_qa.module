@@ -85,6 +85,21 @@ function islandora_qa_menu() {
   return $items;
 }
 
+/**
+ * Map values.
+ *
+ * Needed to avoid the task being an optional parameter in the queue displays.
+ *
+ * @param string $value
+ *   A value to map to a task.
+ *
+ * @return string|bool
+ *   The input $value if it was set; otherwise, FALSE.
+ */
+function islandora_qa_task_to_arg($value) {
+  return (empty($value) || $value == '%') ? FALSE : $value;
+}
+
 
 /**
  * Implements hook_admin_paths_alter().
