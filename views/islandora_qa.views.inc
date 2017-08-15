@@ -92,6 +92,9 @@ function islandora_qa_views_data() {
       'sort' => array(
         'handler' => 'views_handler_sort',
       ),
+      'argument' => array(
+        'handler' => 'views_handler_argument_numeric',
+      ),
     ),
     'itemId' => array(
       'title' => t('Item ID'),

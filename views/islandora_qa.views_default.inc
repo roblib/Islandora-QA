@@ -93,7 +93,7 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['id']['table'] = 'islandora_qa_task_info';
   $handler->display->display_options['fields']['id']['field'] = 'taskId';
   $handler->display->display_options['fields']['id']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['id']['alter']['path'] = 'islandora_qa/task/[id]';
+  $handler->display->display_options['fields']['id']['alter']['path'] = 'islandora_qa/list/items/[id]';
   $handler->display->display_options['fields']['id']['alter']['target'] = '_blank';
   /* Field: Islandora QA: Viewer */
   $handler->display->display_options['fields']['viewer']['id'] = 'viewer';
@@ -235,11 +235,15 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'No sets available.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Relationship: Islandora Batch: Set Creator */
-  $handler->display->display_options['relationships']['uid']['id'] = 'user';
-  $handler->display->display_options['relationships']['uid']['table'] = 'islandora_qa_task_items';
-  $handler->display->display_options['relationships']['uid']['field'] = 'user';
-  $handler->display->display_options['relationships']['uid']['required'] = FALSE;
+  /* Relationship: Islandora QA: Task ID */
+  $handler->display->display_options['fields']['taskId']['id'] = 'taskId';
+  $handler->display->display_options['fields']['taskId']['table'] = 'islandora_qa_task_items';
+  $handler->display->display_options['fields']['taskId']['field'] = 'taskId';
+  /* Relationship: Islandora QA: Task Item Worker */
+  $handler->display->display_options['relationships']['name']['id'] = 'user';
+  $handler->display->display_options['relationships']['name']['table'] = 'islandora_qa_task_items';
+  $handler->display->display_options['relationships']['name']['field'] = 'user';
+  $handler->display->display_options['relationships']['name']['required'] = FALSE;
   /* Field: Islandora QA: Item ID */
   $handler->display->display_options['fields']['itemId']['id'] = 'itemId';
   $handler->display->display_options['fields']['itemId']['table'] = 'islandora_qa_task_items';
@@ -269,6 +273,17 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['reject']['id'] = 'rejectionReason';
   $handler->display->display_options['fields']['reject']['table'] = 'islandora_qa_task_items';
   $handler->display->display_options['fields']['reject']['field'] = 'rejectionReason';
+  /* Contextual filter: Islandora QA: Task */
+  $handler->display->display_options['arguments']['taskId']['id'] = 'taskId';
+  $handler->display->display_options['arguments']['taskId']['table'] = 'islandora_qa_task_items';
+  $handler->display->display_options['arguments']['taskId']['field'] = 'taskId';
+  $handler->display->display_options['arguments']['taskId']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['taskId']['title'] = 'Task %1 Items';
+  $handler->display->display_options['arguments']['taskId']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['taskId']['default_argument_options']['argument'] = 'all';
+  $handler->display->display_options['arguments']['taskId']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['taskId']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['taskId']['summary_options']['items_per_page'] = '25';
 
   /* Display: User Task Page */
   $handler = $view->new_display('page', 'User Task Page', 'islandora_qa_task_page');
