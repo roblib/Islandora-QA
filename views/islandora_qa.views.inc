@@ -55,13 +55,6 @@ function islandora_qa_views_data() {
         'click sortable' => TRUE,
       ),
     ),
-    'actions' => array(
-      'title' => t('Task Actions'),
-      'help' => t('A list of actions which may be performed on an item in the queue.'),
-      'field' => array(
-        'handler' => 'IslandoraQaViewsFieldHandlerTaskActions',
-      ),
-    ),
   );
 
   $data['islandora_qa_task_items'] = array(
