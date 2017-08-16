@@ -62,8 +62,12 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
     '#size' => 10,
   );
   
-  $models = array();
-  $DSIDs = array();
+  $model = (isset($form_state['values']['model']))? $form_state['values']['model'] : 'any';
+  $models = ($model == 'any')? array() : array($model);
+  
+  $ds = (isset($form_state['values']['datastream']))? $form_state['values']['datastream'] : 'any';
+  $DSIDs = ($ds == 'any')? array() : array($ds);
+  
   $xml_forms = xml_form_builder_get_associations(array(), $models, $DSIDs);
   foreach($xml_forms as $f)
   {
@@ -71,9 +75,57 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
     $form_options[$key] = $f['form_name'];
   }
   
-  $form['xml_form'] = array(
-    '#type' => 'radios',
+  $model_options['any'] = 'any';
+  $dsid_options['any'] = 'any';
+  $all_xml_forms = xml_form_builder_get_associations();
+
+  foreach($all_xml_forms as $f)
+  {
+    $key = $f['dsid'];
+    if(!isset($dsid_options[$key]))
+      $dsid_options[$key] = $key;
+    $key = $f['content_model'];
+    if(!isset($model_options[$key]))
+      $model_options[$key] = $key;
+  }
+  
+  $form['xml_form_group'] = array(
+    '#type' => 'fieldset',
     '#title' => t('Form'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+  
+  $form['xml_form_group']['datastream'] = array(
+    '#type' => 'select',
+    '#title' => t('Filter Datastream'),
+    '#options' => $dsid_options,
+    '#default' => 'any',
+    '#ajax' => array(
+      'callback' => 'islandora_qa_ajax_callback',
+      'wrapper' => 'radios-div',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+  
+  $form['xml_form_group']['model'] = array(
+    '#type' => 'select',
+    '#title' => t('Filter Model'),
+    '#options' => $model_options,
+    '#default' => 'any',
+    '#ajax' => array(
+      'callback' => 'islandora_qa_ajax_callback',
+      'wrapper' => 'radios-div',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+  
+  $form['xml_form_group']['xml_form'] = array(
+    '#type' => 'radios',
+    '#prefix' => '<div id="radios-div">',
+    '#suffix' => '</div>',
     '#options' => $form_options,
   );
   
@@ -227,4 +279,8 @@ function islandora_qa_task_creation_validate_page_one($form, &$form_state) {
 
 function islandora_qa_task_creation_validate_page_two($form, &$form_state) {
 
+}
+
+function islandora_qa_ajax_callback($form, $form_state) {
+  return $form['xml_form_group']['xml_form'];
 }
