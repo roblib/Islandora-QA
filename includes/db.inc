@@ -4,8 +4,16 @@
  * @file
  * Database Helper Functions.
  */
- 
- function islandora_qa_task_exists($taskId) {
+
+function islandora_qa_get_all_tasks() {
+  $result = db_select('islandora_qa_task_info', 'q')
+    ->fields('q', array('taskId'))
+    ->execute()
+    ->fetchAllAssoc('taskId');
+  return $result;
+}
+
+function islandora_qa_task_exists($taskId) {
   $result = db_select('islandora_qa_task_items', 'q')
     ->fields('q', array('itemId'))
     ->condition('taskId', $taskId)
@@ -38,6 +46,28 @@ function islandora_qa_get_progress_in_task($taskId) {
     ->execute()
     ->rowCount();
   return array($done, $all);
+}
+
+function islandora_qa_get_task_status($taskId) {
+  $notDone = db_select('islandora_qa_task_items', 'q')
+    ->fields('q', array('itemId'))
+    ->condition('taskId', $taskId)
+    ->condition('status', 0, '=')
+    ->execute()
+    ->rowCount();
+  $done = db_select('islandora_qa_task_items', 'q')
+    ->fields('q', array('itemId'))
+    ->condition('taskId', $taskId)
+    ->condition('status', 1, '=')
+    ->execute()
+    ->rowCount();
+  $reject = db_select('islandora_qa_task_items', 'q')
+    ->fields('q', array('itemId'))
+    ->condition('taskId', $taskId)
+    ->condition('status', 2, '=')
+    ->execute()
+    ->rowCount();
+  return array($notDone, $done, $reject);
 }
 
 function islandora_qa_get_qa_viewer($taskId) {

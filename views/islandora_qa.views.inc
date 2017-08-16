@@ -23,7 +23,7 @@ function islandora_qa_views_data() {
       'title' => t('Task ID'),
       'help' => t('ID of the task set'),
       'field' => array(
-        'handler' => 'views_handler_field_numeric',
+        'handler' => 'IslandoraQAProgressFieldHandler',
         'click sortable' => TRUE,
       ),
       'filter' => array(

@@ -43,6 +43,7 @@ function islandora_qa_views_default_views() {
     'editStream' => 'editStream',
     'form' => 'form',
     'count' => 'count',
+    'progress' => 'progress',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
@@ -69,6 +70,13 @@ function islandora_qa_views_default_views() {
       'empty_column' => 0,
     ),
     'count' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'progress' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -115,6 +123,13 @@ function islandora_qa_views_default_views() {
   $handler->display->display_options['fields']['count']['field'] = 'taskId';
   $handler->display->display_options['fields']['count']['group_type'] = 'count';
   $handler->display->display_options['fields']['count']['label'] = 'Set Size';
+  /* Field: Islandora QA: Task Progress */
+  $handler->display->display_options['fields']['progress']['id'] = 'taskId';
+  $handler->display->display_options['fields']['progress']['table'] = 'islandora_qa_task_info';
+  $handler->display->display_options['fields']['progress']['field'] = 'taskId';
+  $handler->display->display_options['fields']['progress']['label'] = 'Progress';
+  $handler->display->display_options['fields']['progress']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['progress']['alter']['text'] = '[progress-text]';
 
   /* Display: User Task Page */
   $handler = $view->new_display('page', 'User Task Page', 'islandora_qa_task_page');

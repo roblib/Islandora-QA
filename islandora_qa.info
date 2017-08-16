@@ -5,7 +5,7 @@ version = 7.x-dev
 core = 7.x
 dependencies[] = islandora
 files[] = views/handlers/IslandoraQAStatusFieldHandler.inc
+files[] = views/handlers/IslandoraQAProgressFieldHandler.inc
 files[] = views/handlers/IslandoraQAViewerNameFieldHandler.inc
-files[] = views/handlers/IslandoraQAViewsFieldHandlerAction.inc
 stylesheets[all][] = css/task_view.css
 
