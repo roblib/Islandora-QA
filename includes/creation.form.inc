@@ -17,6 +17,8 @@ function islandora_qa_task_creation_form ($form, &$form_state, $management = FAL
 }
 
 function islandora_qa_task_creation_page_one_form($form, &$form_state){
+  module_load_include('inc', 'xml_form_builder', 'includes/associations');
+  
   $form['pidTabs'] = array(
     '#type' => 'vertical_tabs',
   );
@@ -60,29 +62,31 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
     '#size' => 10,
   );
   
-  $form['edit_datastream'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Editing Data stream'),
-    '#default_value' => t('MODS'),
-    '#size' => 15,
-  );
+  $models = array();
+  $DSIDs = array();
+  $xml_forms = xml_form_builder_get_associations(array(), $models, $DSIDs);
+  foreach($xml_forms as $f)
+  {
+    $key = $f['id'].':'.$f['dsid'];
+    $form_options[$key] = $f['form_name'];
+  }
   
-  $form['edit_datastream_form'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Data form'),
-    '#size' => 50,
+  $form['xml_form'] = array(
+    '#type' => 'radios',
+    '#title' => t('Form'),
+    '#options' => $form_options,
   );
   
   $qa_viewers = module_invoke_all('islandora_qa_viewer_info');
-  forEach($qa_viewers as $view)
+  foreach($qa_viewers as $v)
   {
-    $viewers[$view['callback']] = $view['label'];
+    $viewers[$v['callback']] = $v['label'];
   }
   
   $form['viewer'] = array(
     '#type' => 'radios',
+    '#title' => t('QA Viewer'),
     '#options' => $viewers,
-    '#default_value' => 1,
   );
 
 	$form['next'] = array(
@@ -172,8 +176,9 @@ function islandora_qa_process_creation_form($form, &$form_state){
   
   $PIDs = array_unique($PIDs);
   
-  $editDS = $form_state['multistep_values']['one']['edit_datastream'];
-  $editForm = $form_state['multistep_values']['one']['edit_datastream_form'];
+  $xml_form = explode(':', $form_state['multistep_values']['one']['xml_form']);
+  $editForm = $xml_form[0];
+  $editDS = $xml_form[1];
   
   $viewer = $form_state['multistep_values']['one']['viewer'];
   

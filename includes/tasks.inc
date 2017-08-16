@@ -47,7 +47,7 @@ function islandora_qa_datastream_form(array $form, array &$form_state, $taskId, 
 
   $associations = xml_form_builder_datastream_form_get_associations($form_state, $object->models, $dsid);
   if(empty($associations)){
-    islandora_qa_auto_reject_in_task($taskId, $object->id, 'The datastream does not have any associated forms or does not exist');
+    islandora_qa_auto_reject_in_task($taskId, $object->id, 'The object does not have the required dataStream');
     //reload same page
     drupal_goto('islandora_qa/task/'.($taskId));
   }
