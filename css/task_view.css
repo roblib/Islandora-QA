@@ -1,17 +1,39 @@
-.viewer-panel{
-  display: inline-block;
+.islandora_qa_wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 103;
+  height: 100vh;
+}
+.islandora-qa-two-up {
+  margin-top: 25px;
+  height: 90vh;
+  margin-bottom: 3px;
+}
+.islandora_qa_wrapper .viewer-panel{
+  float: left;
   width: 40%;
 }
-.spacer-panel{
-  display: inline-block;
-  width: 2%;
+.islandora_qa_wrapper .viewer-content{
+  overflow: hidden;
 }
-.form-panel{
-  display: inline-block;
+
+.islandora_qa_wrapper .viewer-content img{
+  display: block;
+  margin: auto;
+}
+.islandora_qa_wrapper .form-panel{
+  float:right;
   width: 58%;
   overflow-y: scroll;
-  height: 400px;
+  height: 90vh;
   background: white;
+}
+.islandora_qa_wrapper .right {
+  float: right;
 }
 .qa-task-error{
   color: red;

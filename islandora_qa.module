@@ -121,7 +121,7 @@ function islandora_qa_task_to_arg($value) {
  */
 function islandora_qa_admin_paths_alter(&$paths) {
     $paths['islandora_qa/task/*'] = TRUE;
-    $paths['islandora_qa/list/items/*/work'] = TRUE;
+    ## $paths['islandora_qa/list/items/*/work'] = TRUE;
 }
 
 

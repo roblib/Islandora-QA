@@ -18,9 +18,17 @@ function islandora_qa_task_creation_form ($form, &$form_state, $management = FAL
 
 function islandora_qa_task_creation_page_one_form($form, &$form_state){
   module_load_include('inc', 'xml_form_builder', 'includes/associations');
-  
-  $form['pidTabs'] = array(
+
+  $form['#title'] = t('Create a new QA Tasklist (queue).');
+
+  $form['chooseObjects'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Select objects'),
+    '#description' => t('Populate the queue with islandora objects, by PID.'),
+  );
+  $form['chooseObjects']['pidTabs'] = array(
     '#type' => 'vertical_tabs',
+    '#default_tab' => 'id_list',
   );
 
   $form['id_list'] = array(
@@ -32,7 +40,7 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
   );
   $form['id_list']['idField'] = array(
     '#type' => 'textarea',
-    '#title' => t('List of PIDs, seperated by commas or newlines.'),
+    '#description' => t('List of PIDs, separated by commas or newlines.'),
   );
 
   $form['id_range'] = array(
@@ -41,6 +49,7 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,
     '#group' => 'pidTabs',
+    '#description' => t('Select objects that fall into a numeric range of PIDs in a single namespace.'),
   );
 
   $form['id_range']['namespace'] = array(
@@ -91,14 +100,19 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
   
   $form['xml_form_group'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Form'),
+    '#title' => t('Select a Metadata Form'),
+    '#description' => t('Select the form to use to edit. This uses Islandora configured form associations.'),
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,
+);
+
+  $form['xml_form_group']['filters'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Filters'),
   );
-  
-  $form['xml_form_group']['datastream'] = array(
+  $form['xml_form_group']['filters']['datastream'] = array(
     '#type' => 'select',
-    '#title' => t('Filter Datastream'),
+    '#title' => t('Filter forms by datastream'),
     '#options' => $dsid_options,
     '#default' => 'any',
     '#ajax' => array(
@@ -109,9 +123,9 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
     ),
   );
   
-  $form['xml_form_group']['model'] = array(
+  $form['xml_form_group']['filters']['model'] = array(
     '#type' => 'select',
-    '#title' => t('Filter Model'),
+    '#title' => t('Filter forms by content model'),
     '#options' => $model_options,
     '#default' => 'any',
     '#ajax' => array(
@@ -137,7 +151,8 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
   
   $form['viewer'] = array(
     '#type' => 'radios',
-    '#title' => t('QA Viewer'),
+    '#title' => t('Select a Viewer'),
+    '#description' => t('"Default viewer" uses the Islandora default configured viewer for that content model (if present). Other modules may create viewers by implementing hook_islandora_qa_viewer_info.'),
     '#options' => $viewers,
   );
 

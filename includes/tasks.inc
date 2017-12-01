@@ -81,9 +81,8 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   
   $subForm = xml_form_builder_get_form($form, $form_state, $form_name, $xml);
   $form = array();
-  
-  $form['progress'] = array(
-    '#markup' => 'Number '.($progress[0]+1).' of '.$progress[1]
+  $form['wrapper-start'] = array(
+    '#markup' => '<div class="islandora_qa_wrapper">',
   );
 
   $viewer = null;
@@ -102,11 +101,11 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
   }
   
   $form['open_panels'] = array(
-    '#markup' => '<div><div class="viewer-panel">' . $viewer . '</div><div class="spacer-panel"></div><div class="form-panel">',
+    '#markup' => '<div><div class="islandora-qa-two-up"><div class="viewer-panel"><div class="viewer-content">' . $viewer . '</div></div><div class="form-panel">',
   );
   $form = array_merge($form, $subForm);
   $form['close_panels'] = array(
-    '#markup' => '</div></div>'
+    '#markup' => '</div></div></div>'
   );
   
   // Make the Object label field required.
@@ -115,20 +114,29 @@ function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, A
     $title_field_parents[] = '#required';
     drupal_array_set_nested_value($form, $title_field_parents, TRUE);
   }
-  
+  $form['progress'] = array(
+    '#markup' => l($object->id, "/islandora/object/{$object->id}") . '  - This is # '.($progress[0]+1).' of '.$progress[1]
+  );
+
+
+  $form['reject'] = array(
+    '#prefix' => '<div class="right">',
+    '#type' => 'link',
+    '#href' => ('islandora_qa/task/'.$taskId.'/reject/'.($object -> id)),
+    '#title' => t('reject'),
+  );
+
   $form['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
     '#name' => 'update',
     '#submit' => array('islandora_qa_task_item_form_submit'),
+    '#suffix' => '</div>',
   );
-  
-  $form['reject'] = array(
-    '#type' => 'link',
-    '#href' => ('islandora_qa/task/'.$taskId.'/reject/'.($object -> id)),
-    '#title' => t('reject'),
+
+  $form['wrapper-end'] = array(
+    '#markup' => '</div>',
   );
-  
   return $form;
 }
 /**
