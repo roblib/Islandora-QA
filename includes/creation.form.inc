@@ -21,6 +21,13 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
 
   $form['#title'] = t('Create a new QA Tasklist (queue).');
 
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#description' => t('a title for this Taskset.'),
+    '#size' => 50,
+  );
+
   $form['chooseObjects'] = array(
     '#type' => 'fieldset',
     '#title' => t('Select objects'),
@@ -30,6 +37,7 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
     '#type' => 'vertical_tabs',
     '#default_tab' => 'id_list',
   );
+
 
   $form['id_list'] = array(
     '#type' => 'fieldset',
@@ -225,6 +233,7 @@ function islandora_qa_task_creation_form_submit ($form, &$form_state) {
 }
 
 function islandora_qa_process_creation_form($form, &$form_state){
+  $title = $form_state['multistep_values']['one']['title'];
   $nameSpace = $form_state['multistep_values']['one']['namespace'];
  
   $rangeStart = (int)$form_state['multistep_values']['one']['num_from'];
@@ -257,8 +266,8 @@ function islandora_qa_process_creation_form($form, &$form_state){
   $options = $viewer($params);
 
   $taskNum = db_insert('islandora_qa_task_info')
-    ->fields(array('viewer', 'viewerOptions', 'streamEdit', 'form'))
-    ->values(array($viewer, $options, $editDS, $editForm))
+    ->fields(array('viewer', 'viewerOptions', 'streamEdit', 'form', 'title'))
+    ->values(array($viewer, $options, $editDS, $editForm, $title))
     ->execute();
 
   foreach($PIDs as $pid){
