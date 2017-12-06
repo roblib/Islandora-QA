@@ -67,6 +67,7 @@ function islandora_qa_datastream_form(array $form, array &$form_state, $taskId, 
 }
 
 function islandora_qa_task_item_form(array $form, array &$form_state, $taskId, AbstractObject $object, array $association) {
+  module_load_include('inc', 'islandora_qa', 'includes/db');
   $form_state['taskId'] = $taskId;
   $form_state['itemId'] = $object->id;
   $form_state['association'] = $association;
