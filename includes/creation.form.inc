@@ -101,7 +101,7 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
   $form['xml_form_group'] = array(
     '#type' => 'fieldset',
     '#title' => t('Select a Metadata Form'),
-    '#description' => t('Select the form to use to edit. This uses Islandora configured form associations.'),
+    '#description' => t('Select the metadata form. This uses configured Islandora form associations.'),
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,
 );
@@ -146,13 +146,13 @@ function islandora_qa_task_creation_page_one_form($form, &$form_state){
   $qa_viewers = module_invoke_all('islandora_qa_viewer_info');
   foreach($qa_viewers as $v)
   {
-    $viewers[$v['callback']] = $v['label'];
+    $viewers[$v['callback']] = $v['label'] . ' - ' . $v['description'];
   }
   
   $form['viewer'] = array(
     '#type' => 'radios',
     '#title' => t('Select a Viewer'),
-    '#description' => t('"Default viewer" uses the Islandora default configured viewer for that content model (if present). Other modules may create viewers by implementing hook_islandora_qa_viewer_info.'),
+    '#description' => t('If the selected viewer has options, they will be presented on the next page.'),
     '#options' => $viewers,
   );
 

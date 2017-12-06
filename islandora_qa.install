@@ -43,6 +43,12 @@ function islandora_qa_schema() {
         'not null' => TRUE,
         'length' => 255,
       ),
+      'title' => array(
+        'description' => 'A title for this task set',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 255,
+      )
     ),
     'primary key' => array('taskId'),
   );

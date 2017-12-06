@@ -1,5 +1,5 @@
 name = Islandora QA Workflow
-description = A module for editing one datastream while viewing anothers
+description = Workflows for editing metadata while looking at the object.
 package = Islandora Tools
 version = 7.x-dev
 core = 7.x

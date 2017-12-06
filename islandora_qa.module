@@ -32,12 +32,12 @@ function islandora_qa_menu() {
     'file' => 'includes/creation.form.inc',
   );
   $items['islandora_qa/list/tasks/new'] = $create_task_base + array(
-    'title' => 'New Task',
+    'title' => t('Create a New Task'),
     'page arguments' => array('islandora_qa_task_creation_form', FALSE),
     'type' => MENU_LOCAL_ACTION,
   );
   $items['admin/reports/islandora_qa_tasks/%islandora_qa_task/new'] = $create_task_base + array(
-    'title' => 'New Task',
+    'title' => t('Create a New QA Task'),
     'page arguments' => array('islandora_qa_task_creation_form', TRUE),
     'type' => MENU_LOCAL_ACTION,
   );
@@ -174,4 +174,50 @@ function islandora_qa_views_api() {
     'api' => 3,
     'path' => drupal_get_path('module', 'islandora_qa') . '/views',
   );
+}
+
+/**
+ * Implements hook_islandora_qa_viewer_info().
+ */
+function islandora_qa_islandora_qa_viewer_info(){
+  return array(
+    'islandora_qa_default_viewer' => array(
+      'label' => t('Default Viewer'),
+      'callback' => 'islandora_qa_default_viewer_callback',
+      'description' => t('use the  Islandora default configured viewer'),
+    ),
+    'islandora_qa_image_viewer' => array(
+      'label' => t('Image Viewer'),
+      'callback' => 'islandora_qa_image_viewer_callback',
+      'description' => t('display a web-friendly image datastream'),
+    ),
+  );
+}
+
+function islandora_qa_default_viewer_callback($params = array()){
+  module_load_include('inc', 'islandora_qa', 'includes/viewers');
+
+  $type = $params['function'];
+  switch($type){
+    case 'view':
+      return _islandora_qa_default_viewer($params);
+    default:
+      return null;
+  }
+}
+
+function islandora_qa_image_viewer_callback($params = array()){
+  module_load_include('inc', 'islandora_qa', 'includes/viewers');
+
+  $type = $params['function'];
+  switch($type){
+    case 'view':
+      return _islandora_qa_image_viewer($params);
+    case 'options':
+      return islandora_qa_image_viewer_options_form();
+    case 'process':
+      return islandora_qa_image_viewer_process_options($params);
+    default:
+      return null;
+  }
 }
